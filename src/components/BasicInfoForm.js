@@ -1,29 +1,21 @@
 import React, { useState } from 'react';
 
-const BasicInfoForm = ({ onComplete }) => {
+const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
   const [formData, setFormData] = useState({
     name: '',
     mobileNumber: '',
     dob: '',
-    experience: {
-      type: '',
-      attachments: []
-    },
-    yearOfExperience: '',
-    selfRate: 5
+    experienceType: '',
+    yearOfExperience: 0,
+    selfRate: 5,
+    resume: null
   });
 
   const [errors, setErrors] = useState({});
 
   const experienceTypes = [
-    'Tarot',
-    'Lal Kitab',
-    'Palmistry',
-    'Vedic Astrology',
-    'Numerology',
-    'Vastu Shastra',
-    'Face Reading',
-    'Crystal Healing'
+    'Tarot', 'Lal Kitab', 'Palmistry', 'Vedic Astrology', 
+    'Numerology', 'Vastu Shastra', 'Face Reading', 'Crystal Healing'
   ];
 
   const validateForm = () => {
@@ -35,35 +27,46 @@ const BasicInfoForm = ({ onComplete }) => {
 
     if (!formData.mobileNumber.trim()) {
       newErrors.mobileNumber = 'Mobile number is required';
-    } else if (!/^\d{10}$/.test(formData.mobileNumber.trim())) {
-      newErrors.mobileNumber = 'Mobile number must be exactly 10 digits';
+    } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+      newErrors.mobileNumber = 'Please enter a valid 10-digit mobile number';
     }
 
     if (!formData.dob) {
       newErrors.dob = 'Date of birth is required';
     }
 
-    if (!formData.experience.type) {
-      newErrors.experienceType = 'Experience type is required';
+    if (!formData.experienceType) {
+      newErrors.experienceType = 'Please select your area of expertise';
     }
 
-    if (!formData.yearOfExperience || formData.yearOfExperience <= 0) {
-      newErrors.yearOfExperience = 'Years of experience must be greater than 0';
+    if (formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
+      newErrors.yearOfExperience = 'Please enter a valid number of years (0-50)';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const isFormValid = () => {
-    return (
-      formData.name.trim() &&
-      formData.mobileNumber.trim() &&
-      /^\d{10}$/.test(formData.mobileNumber.trim()) &&
-      formData.dob &&
-      formData.experience.type &&
-      formData.yearOfExperience > 0
-    );
+  const handleInputChange = (field, value) => {
+    const newFormData = { ...formData, [field]: value };
+    setFormData(newFormData);
+    if (onFormDataChange) {
+      onFormDataChange(newFormData);
+    }
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const newFormData = { ...formData, resume: file };
+      setFormData(newFormData);
+      if (onFormDataChange) {
+        onFormDataChange(newFormData);
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -73,275 +76,303 @@ const BasicInfoForm = ({ onComplete }) => {
     }
   };
 
-  const handleInputChange = (field, value) => {
-    if (field.includes('.')) {
-      const [parent, child] = field.split('.');
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value
-      }));
-    }
-    
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: ''
-      }));
-    }
-  };
-
-  const handleFileUpload = (e) => {
-    const files = Array.from(e.target.files);
-    // For demo, we'll just use placeholder URLs
-    const fileUrls = files.map(file => URL.createObjectURL(file));
-    handleInputChange('experience.attachments', fileUrls);
+  const isFormValid = () => {
+    return formData.name && 
+           formData.mobileNumber && 
+           formData.dob && 
+           formData.experienceType && 
+           formData.yearOfExperience >= 0;
   };
 
   return (
     <div style={{ 
-      padding: '20px', 
-      maxWidth: '600px', 
-      margin: '0 auto',
-      fontFamily: 'Arial, sans-serif'
+      minHeight: 'calc(100vh - 100px)', 
+      padding: '20px',
+      backgroundColor: '#f8fafc'
     }}>
-      <h2 style={{ textAlign: 'center', color: '#2196f3', marginBottom: '30px' }}>
-        🔮 Astrologer Registration
-      </h2>
-      
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        
-        {/* Name */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Full Name *
-          </label>
-          <input
-            type="text"
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            placeholder="Enter your full name"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.name ? '#f44336' : '#ddd'}`,
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.name && <span style={{ color: '#f44336', fontSize: '14px' }}>{errors.name}</span>}
-        </div>
-
-        {/* Mobile Number */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Mobile Number *
-          </label>
-          <input
-            type="tel"
-            value={formData.mobileNumber}
-            onChange={(e) => {
-              // Only allow digits and limit to 10 characters
-              const value = e.target.value.replace(/\D/g, '').slice(0, 10);
-              handleInputChange('mobileNumber', value);
-            }}
-            placeholder="Enter 10-digit mobile number"
-            maxLength="10"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.mobileNumber ? '#f44336' : '#ddd'}`,
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.mobileNumber && <span style={{ color: '#f44336', fontSize: '14px' }}>{errors.mobileNumber}</span>}
-          {formData.mobileNumber && (
-            <small style={{ color: formData.mobileNumber.length === 10 ? '#4caf50' : '#666', fontSize: '12px' }}>
-              {formData.mobileNumber.length}/10 digits
-            </small>
-          )}
-        </div>
-
-        {/* Date of Birth */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Date of Birth *
-          </label>
-          <input
-            type="date"
-            value={formData.dob}
-            onChange={(e) => handleInputChange('dob', e.target.value)}
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.dob ? '#f44336' : '#ddd'}`,
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.dob && <span style={{ color: '#f44336', fontSize: '14px' }}>{errors.dob}</span>}
-        </div>
-
-        {/* Experience Type */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Area of Expertise *
-          </label>
-          <select
-            value={formData.experience.type}
-            onChange={(e) => handleInputChange('experience.type', e.target.value)}
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.experienceType ? '#f44336' : '#ddd'}`,
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box',
-              backgroundColor: 'white'
-            }}
-          >
-            <option value="">Select your expertise</option>
-            {experienceTypes.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
-          {errors.experienceType && <span style={{ color: '#f44336', fontSize: '14px' }}>{errors.experienceType}</span>}
-        </div>
-
-        {/* Years of Experience */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Years of Experience *
-          </label>
-          <input
-            type="number"
-            min="0"
-            max="50"
-            value={formData.yearOfExperience}
-            onChange={(e) => handleInputChange('yearOfExperience', parseInt(e.target.value) || 0)}
-            placeholder="Enter years of experience"
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: `1px solid ${errors.yearOfExperience ? '#f44336' : '#ddd'}`,
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          {errors.yearOfExperience && <span style={{ color: '#f44336', fontSize: '14px' }}>{errors.yearOfExperience}</span>}
-        </div>
-
-        {/* Self Rating */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Rate Yourself (1-10): {formData.selfRate}
-          </label>
-          <input
-            type="range"
-            min="1"
-            max="10"
-            value={formData.selfRate}
-            onChange={(e) => handleInputChange('selfRate', parseInt(e.target.value))}
-            style={{
-              width: '100%',
-              margin: '10px 0'
-            }}
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666' }}>
-            <span>Beginner</span>
-            <span>Expert</span>
-          </div>
-        </div>
-
-        {/* Certificates/Attachments */}
-        <div>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#333' }}>
-            Certificates/Documents (Optional)
-          </label>
-          <input
-            type="file"
-            multiple
-            accept=".pdf,.jpg,.jpeg,.png"
-            onChange={handleFileUpload}
-            style={{
-              width: '100%',
-              padding: '12px',
-              border: '1px solid #ddd',
-              borderRadius: '6px',
-              fontSize: '16px',
-              boxSizing: 'border-box'
-            }}
-          />
-          <small style={{ color: '#666', fontSize: '12px' }}>
-            Upload certificates, testimonials, or other relevant documents
-          </small>
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={!isFormValid()}
-          style={{
-            backgroundColor: isFormValid() ? '#4caf50' : '#ccc',
-            color: 'white',
-            padding: '15px 30px',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            cursor: isFormValid() ? 'pointer' : 'not-allowed',
-            marginTop: '20px',
-            transition: 'all 0.3s ease',
-            opacity: isFormValid() ? 1 : 0.6
-          }}
-          onMouseOver={(e) => {
-            if (isFormValid()) {
-              e.target.style.backgroundColor = '#45a049';
-            }
-          }}
-          onMouseOut={(e) => {
-            if (isFormValid()) {
-              e.target.style.backgroundColor = '#4caf50';
-            }
-          }}
-        >
-          Continue to MCQ Test →
-        </button>
-        
-        {!isFormValid() && (
-          <div style={{ 
-            marginTop: '10px', 
-            padding: '10px', 
-            backgroundColor: '#fff3cd', 
-            border: '1px solid #ffeaa7',
-            borderRadius: '4px',
-            fontSize: '14px',
-            color: '#856404'
+      <div style={{ 
+        maxWidth: '800px', 
+        margin: '0 auto',
+        backgroundColor: 'white',
+        borderRadius: '12px',
+        padding: '30px',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+      }}>
+        {/* Header */}
+        <div style={{ 
+          marginBottom: '20px',
+          borderBottom: '1px solid #e2e8f0',
+          paddingBottom: '20px'
+        }}>
+          <h1 style={{ 
+            margin: 0,
+            color: '#ea580c',
+            fontSize: '24px'
           }}>
-            <strong>⚠️ Please fill in all required fields:</strong>
-            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-              {!formData.name.trim() && <li>Full Name</li>}
-              {(!formData.mobileNumber.trim() || !/^\d{10}$/.test(formData.mobileNumber.trim())) && <li>10-digit Mobile Number</li>}
-              {!formData.dob && <li>Date of Birth</li>}
-              {!formData.experience.type && <li>Area of Expertise</li>}
-              {(!formData.yearOfExperience || formData.yearOfExperience <= 0) && <li>Years of Experience (greater than 0)</li>}
-            </ul>
+            Registration
+          </h1>
+        </div>
+        
+        <p style={{ 
+          color: '#64748b',
+          marginBottom: '30px',
+          lineHeight: '1.6'
+        }}>
+          Tell us about yourself and your astrological expertise. This information helps us personalize your assessment experience.
+        </p>
+
+        <form onSubmit={handleSubmit}>
+          {/* Name and Mobile */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '20px',
+            marginBottom: '20px'
+          }}>
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: '600',
+                color: '#374151'
+              }}>
+                Full Name *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                placeholder="Enter your full name"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: `1px solid ${errors.name ? '#ef4444' : '#d1d5db'}`,
+                  borderRadius: '8px',
+                  fontSize: '16px'
+                }}
+              />
+              {errors.name && (
+                <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                  {errors.name}
+                </p>
+              )}
+            </div>
+            
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: '600',
+                color: '#374151'
+              }}>
+                Mobile Number *
+              </label>
+              <input
+                type="tel"
+                required
+                value={formData.mobileNumber}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '');
+                  if (value.length <= 10) {
+                    handleInputChange('mobileNumber', value);
+                  }
+                }}
+                placeholder="Enter 10-digit mobile number"
+                maxLength="10"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: `1px solid ${errors.mobileNumber ? '#ef4444' : '#d1d5db'}`,
+                  borderRadius: '8px',
+                  fontSize: '16px'
+                }}
+              />
+              {errors.mobileNumber && (
+                <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                  {errors.mobileNumber}
+                </p>
+              )}
+            </div>
           </div>
-        )}
-      </form>
+
+          {/* Date of Birth */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Date of Birth *
+            </label>
+            <input
+              type="date"
+              required
+              value={formData.dob}
+              onChange={(e) => handleInputChange('dob', e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: `1px solid ${errors.dob ? '#ef4444' : '#d1d5db'}`,
+                borderRadius: '8px',
+                fontSize: '16px'
+              }}
+            />
+            {errors.dob && (
+              <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                {errors.dob}
+              </p>
+            )}
+          </div>
+
+          {/* Experience Type */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Area of Expertise *
+            </label>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+              gap: '10px' 
+            }}>
+              {experienceTypes.map((type) => (
+                <label
+                  key={type}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '12px',
+                    border: `2px solid ${formData.experienceType === type ? '#ea580c' : '#e2e8f0'}`,
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    backgroundColor: formData.experienceType === type ? '#fef3c7' : 'white',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="experienceType"
+                    value={type}
+                    checked={formData.experienceType === type}
+                    onChange={(e) => handleInputChange('experienceType', e.target.value)}
+                    style={{ marginRight: '10px' }}
+                  />
+                  <span style={{ fontWeight: '500' }}>{type}</span>
+                </label>
+              ))}
+            </div>
+            {errors.experienceType && (
+              <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                {errors.experienceType}
+              </p>
+            )}
+          </div>
+
+          {/* Years of Experience */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Years of Experience *
+            </label>
+            <input
+              type="number"
+              min="0"
+              max="50"
+              value={formData.yearOfExperience}
+              onChange={(e) => handleInputChange('yearOfExperience', parseInt(e.target.value) || 0)}
+              placeholder="Enter years of experience"
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: `1px solid ${errors.yearOfExperience ? '#ef4444' : '#d1d5db'}`,
+                borderRadius: '8px',
+                fontSize: '16px'
+              }}
+            />
+            {errors.yearOfExperience && (
+              <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                {errors.yearOfExperience}
+              </p>
+            )}
+          </div>
+
+          {/* Resume Upload */}
+          <div style={{ marginBottom: '30px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Resume/CV (Optional)
+            </label>
+            <div style={{
+              border: '2px dashed #d1d5db',
+              borderRadius: '8px',
+              padding: '20px',
+              textAlign: 'center',
+              backgroundColor: '#f9fafb'
+            }}>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={handleFileUpload}
+                style={{ display: 'none' }}
+                id="file-upload"
+              />
+              <label htmlFor="file-upload" style={{ cursor: 'pointer', display: 'block' }}>
+                <div style={{ fontSize: '24px', marginBottom: '10px' }}>📄</div>
+                <div style={{ 
+                  color: '#6b7280',
+                  fontWeight: '500'
+                }}>
+                  {formData.resume ? formData.resume.name : 'Click to upload resume'}
+                </div>
+                <div style={{ 
+                  fontSize: '12px',
+                  color: '#9ca3af',
+                  marginTop: '5px'
+                }}>
+                  PDF, JPG, PNG up to 10MB
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {/* Submit Button - Hidden, handled by header */}
+          <button
+            type="submit"
+            disabled={!isFormValid()}
+            style={{ display: 'none' }}
+          >
+            Continue to MCQ Test →
+          </button>
+          
+          {!isFormValid() && (
+            <div style={{ 
+              marginTop: '15px',
+              padding: '15px', 
+              backgroundColor: '#fef3c7', 
+              border: '1px solid #f59e0b',
+              borderRadius: '8px',
+              fontSize: '14px',
+              color: '#92400e'
+            }}>
+              <strong>⚠️ Please complete all required fields to continue</strong>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

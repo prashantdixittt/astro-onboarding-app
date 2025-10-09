@@ -1,35 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { getMCQsByExperience } from '../data/mcqQuestions';
 
-const MCQTest = ({ basicInfo, onComplete }) => {
+const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLoadingEnd }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+    if (onLoadingStart) onLoadingStart('Processing your MCQ responses...');
+    
+    // Simulate processing time for better UX
+    setTimeout(() => {
+      const mcqResults = calculateScore();
+      
+      onComplete({
+        basicInfo,
+        mcqResults
+      });
+      
+      if (onLoadingEnd) onLoadingEnd();
+    }, 1000);
+  };
 
   useEffect(() => {
     // Get MCQs based on experience type and years
-    const mcqs = getMCQsByExperience(basicInfo.experience.type, basicInfo.yearOfExperience);
-    setQuestions(mcqs);
+    if (basicInfo && basicInfo.experienceType) {
+      const mcqs = getMCQsByExperience(basicInfo.experienceType, basicInfo.yearOfExperience);
+      setQuestions(mcqs);
+    }
   }, [basicInfo]);
 
-  useEffect(() => {
-    // Timer countdown
-    if (timeLeft > 0 && !isSubmitting) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && !isSubmitting) {
-      handleSubmit();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, isSubmitting]);
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
+  useEffect(() => {
+    // Notify parent of current question state
+    if (onQuestionChange) {
+      const currentQuestionId = questions[currentQuestion]?.id;
+      const isCurrentQuestionAnswered = !!answers[currentQuestionId];
+      
+      onQuestionChange({
+        currentQuestion,
+        totalQuestions: questions.length,
+        isLastQuestion: currentQuestion === questions.length - 1,
+        isSubmitting,
+        isCurrentQuestionAnswered
+      });
+    }
+  }, [currentQuestion, questions.length, isSubmitting, answers, questions, onQuestionChange]);
+
 
   const handleAnswerSelect = (questionId, selectedAnswer) => {
     setAnswers(prev => ({
@@ -63,21 +82,18 @@ const MCQTest = ({ basicInfo, onComplete }) => {
     };
   };
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-    const mcqResults = calculateScore();
-    
-    onComplete({
-      basicInfo,
-      mcqResults
-    });
-  };
-
   const goToQuestion = (index) => {
     setCurrentQuestion(index);
   };
 
   const nextQuestion = () => {
+    // Check if current question is answered before allowing navigation
+    const currentQuestionId = questions[currentQuestion]?.id;
+    if (!answers[currentQuestionId]) {
+      alert('Please select an answer before proceeding to the next question.');
+      return;
+    }
+    
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
@@ -116,8 +132,8 @@ const MCQTest = ({ basicInfo, onComplete }) => {
         flexWrap: 'wrap',
         gap: '10px'
       }}>
-        <h2 style={{ color: '#2196f3', margin: 0 }}>
-          📝 MCQ Test - {basicInfo.experience.type}
+        <h2 style={{ color: '#ea580c', margin: 0 }}>
+          📝 MCQ Test - {basicInfo.experienceType}
         </h2>
         <div style={{ 
           display: 'flex', 
@@ -126,16 +142,7 @@ const MCQTest = ({ basicInfo, onComplete }) => {
           flexWrap: 'wrap'
         }}>
           <span style={{ 
-            backgroundColor: timeLeft <= 60 ? '#f44336' : '#4caf50',
-            color: 'white',
-            padding: '8px 16px',
-            borderRadius: '20px',
-            fontWeight: 'bold'
-          }}>
-            ⏰ {formatTime(timeLeft)}
-          </span>
-          <span style={{ 
-            backgroundColor: '#2196f3',
+            backgroundColor: '#ea580c',
             color: 'white',
             padding: '8px 16px',
             borderRadius: '20px'
@@ -185,7 +192,8 @@ const MCQTest = ({ basicInfo, onComplete }) => {
           marginBottom: '25px',
           fontSize: '18px',
           lineHeight: '1.6',
-          color: '#333'
+          color: '#333',
+          textAlign: 'left'
         }}>
           {question.question}
         </h3>
@@ -234,21 +242,14 @@ const MCQTest = ({ basicInfo, onComplete }) => {
         </div>
       </div>
 
-      {/* Navigation */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '30px',
-        flexWrap: 'wrap',
-        gap: '15px'
-      }}>
+      {/* Navigation - Hidden, handled by header */}
+      <div style={{ display: 'none' }}>
         <button
           onClick={prevQuestion}
           disabled={currentQuestion === 0}
           style={{
             padding: '12px 24px',
-            backgroundColor: currentQuestion === 0 ? '#ccc' : '#2196f3',
+            backgroundColor: currentQuestion === 0 ? '#ccc' : '#ea580c',
             color: 'white',
             border: 'none',
             borderRadius: '6px',
@@ -271,7 +272,7 @@ const MCQTest = ({ basicInfo, onComplete }) => {
                 border: `2px solid ${currentQuestion === index ? '#4caf50' : '#ddd'}`,
                 backgroundColor: answers[questions[index].id] ? '#4caf50' : 
                                currentQuestion === index ? '#e8f5e8' : 'white',
-                color: answers[questions[index].id] || currentQuestion === index ? 'white' : '#333',
+                color: answers[questions[index].id] ? 'white' : currentQuestion === index ? '#333' : '#333',
                 cursor: 'pointer',
                 fontWeight: 'bold',
                 fontSize: '14px'
@@ -282,39 +283,44 @@ const MCQTest = ({ basicInfo, onComplete }) => {
           ))}
         </div>
 
-        {currentQuestion === questions.length - 1 ? (
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: isSubmitting ? '#ccc' : '#4caf50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              fontSize: '16px',
-              fontWeight: 'bold'
-            }}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Test'}
-          </button>
-        ) : (
-          <button
-            onClick={nextQuestion}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#4caf50',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '16px'
-            }}
-          >
-            Next →
-          </button>
-        )}
+        {/* Navigation Buttons - Hidden, handled by header */}
+        <div style={{ display: 'none' }}>
+          {currentQuestion === questions.length - 1 ? (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              data-testid="mcq-submit"
+              style={{
+                padding: '12px 24px',
+                backgroundColor: isSubmitting ? '#ccc' : '#4caf50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                fontSize: '16px',
+                fontWeight: 'bold'
+              }}
+            >
+              {isSubmitting ? 'Submitting...' : 'Next'}
+            </button>
+          ) : (
+            <button
+              onClick={nextQuestion}
+              data-testid="mcq-next"
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#4caf50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '16px'
+              }}
+            >
+              Next →
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Question Overview */}
