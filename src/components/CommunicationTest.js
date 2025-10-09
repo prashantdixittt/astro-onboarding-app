@@ -1,5 +1,5 @@
-  import React, { useState, useRef, useEffect } from 'react';
-import { getRandomQuestionByCriteria } from '../data/questions';
+import React, { useState, useRef, useEffect } from 'react';
+import { getRandomQuestionByCriteria, getQuestionById } from '../data/questionsMultilingual';
 import geminiService from '../services/geminiService';
 
 const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange, onLoadingStart, onLoadingEnd }) => {
@@ -7,11 +7,22 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
   const [audioBlob, setAudioBlob] = useState(null);
   const [transcript, setTranscript] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('en-US');
+ const [selectedLanguage, setSelectedLanguage] = useState(basicInfo?.preferredLanguage || 'english');
+  const [speechRecognitionLang, setSpeechRecognitionLang] = useState('en-US');
   const [question, setQuestion] = useState(null);
+  const [questionId, setQuestionId] = useState(null);
   const mediaRecorderRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  // All available languages - always show all 5 languages
+  const availableLanguages = [
+    { value: 'english', label: 'English', speechLang: 'en-US' },
+    { value: 'hindi', label: 'हिंदी (Hindi)', speechLang: 'hi-IN' },
+    { value: 'tamil', label: 'தமிழ் (Tamil)', speechLang: 'ta-IN' },
+    { value: 'telugu', label: 'తెలుగు (Telugu)', speechLang: 'te-IN' },
+    { value: 'marathi', label: 'मराठी (Marathi)', speechLang: 'mr-IN' }
+  ];
 
   useEffect(() => {
     // Determine difficulty based on years of experience
@@ -36,12 +47,40 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
       'Crystal Healing': 'crystal-healing'
     };
 
-    const expertise = expertiseMap[basicInfo?.experienceType] || null;
+    // Get the first selected expertise type from the array
+    const experienceTypes = basicInfo?.experienceTypes || basicInfo?.experienceType || [];
+    const firstExpertise = Array.isArray(experienceTypes) ? experienceTypes[0] : experienceTypes;
+    const expertise = expertiseMap[firstExpertise] || null;
 
-    // Get a random question matching the criteria
-    const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty);
-    setQuestion(selectedQuestion);
-  }, [basicInfo]);
+    // If we already have a question ID, get the same question in the new language
+    if (questionId) {
+      const translatedQuestion = getQuestionById(questionId, selectedLanguage);
+      setQuestion(translatedQuestion);
+    } else {
+      // Get a random question matching the criteria and selected language
+      const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty, selectedLanguage);
+      setQuestion(selectedQuestion);
+      // Store the question ID for language changes
+      if (selectedQuestion) {
+        setQuestionId(selectedQuestion.id);
+      }
+    }
+
+    // Reset audio and transcript when language changes
+    setAudioBlob(null);
+    setTranscript('');
+  }, [basicInfo, selectedLanguage]);
+
+  const handleLanguageChange = (e) => {
+    const newLang = e.target.value;
+    setSelectedLanguage(newLang);
+
+    // Update speech recognition language
+    const langConfig = availableLanguages.find(l => l.value === newLang);
+    if (langConfig) {
+      setSpeechRecognitionLang(langConfig.speechLang);
+    }
+  };
 
   const scenario = question?.question || "A client asks: 'I've been feeling very anxious about my future. Can you help me understand what the stars say about overcoming my fears and finding peace?' Please respond with empathy and provide astrological guidance.";
 
@@ -80,7 +119,7 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
         recognitionRef.current = new SpeechRecognition();
         recognitionRef.current.continuous = true;
         recognitionRef.current.interimResults = true;
-        recognitionRef.current.lang = selectedLanguage;
+        recognitionRef.current.lang = speechRecognitionLang;
         
         let finalTranscript = '';
         
@@ -154,16 +193,14 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
 
     setIsProcessing(true);
     if (onLoadingStart) onLoadingStart('Evaluating your communication skills...');
-    
+
     try {
-      const language = selectedLanguage.startsWith('hi') ? 'hindi' : 'english';
-      
       // If no transcript, use a placeholder that indicates audio-only submission
       const finalTranscript = transcript.trim() || '[Audio recorded - no transcript available]';
-      
+
       const result = await geminiService.scoreCommunicationText(
         finalTranscript,
-        language,
+        selectedLanguage,
         scenario
       );
 
@@ -191,14 +228,14 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
       flexDirection: 'column'
     }}>
       {/* Header */}
-      <div style={{ 
-        textAlign: 'center', 
+      <div style={{
+        textAlign: 'center',
         marginBottom: '40px',
         maxWidth: '1200px',
         width: '100%',
         margin: '0 auto 40px auto'
       }}>
-        <h1 style={{ 
+        <h1 style={{
           margin: 0,
           fontSize: '2.2rem',
           background: 'linear-gradient(135deg, #ea580c, #f97316, #fb923c)',
@@ -210,28 +247,84 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
         }}>
           Communication Test
         </h1>
-        
-        <p style={{ 
-          fontSize: '16px', 
+
+        <p style={{
+          fontSize: '16px',
           color: '#475569',
           lineHeight: '1.6',
-          margin: 0
+          margin: '0 0 15px 0',
+          fontWeight: '500'
         }}>
           Demonstrate your communication skills by responding to a client scenario with empathy and astrological guidance.
         </p>
+
+        {/* Language Selection Dropdown */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '10px',
+          marginTop: '15px'
+        }}>
+          <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#1976d2'
+          }}>
+            <span>🌐 Select Language / भाषा चुनें / மொழி / భాష / भाषा निवडा:</span>
+            <select
+              value={selectedLanguage}
+              onChange={handleLanguageChange}
+              disabled={isRecording || isProcessing}
+              style={{
+                padding: '10px 15px',
+                fontSize: '14px',
+                borderRadius: '8px',
+                border: '2px solid #2196f3',
+                backgroundColor: 'white',
+                cursor: (isRecording || isProcessing) ? 'not-allowed' : 'pointer',
+                fontWeight: '500',
+                color: '#333',
+                outline: 'none',
+                minWidth: '200px'
+              }}
+            >
+              {availableLanguages.map(lang => (
+                <option key={lang.value} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        {(audioBlob || transcript) && (
+          <div style={{
+            marginTop: '10px',
+            padding: '8px 12px',
+            backgroundColor: '#fff3cd',
+            borderRadius: '8px',
+            fontSize: '12px',
+            color: '#856404',
+            display: 'inline-block'
+          }}>
+            ⚠️ Note: Changing language will reset your recording
+          </div>
+        )}
       </div>
 
       {/* Main Content - Two Column Layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '30px',
+        gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+        gap: '20px',
         maxWidth: '1200px',
         width: '100%',
         margin: '0 auto',
         flex: 1,
         alignItems: 'stretch',
-        height: 'calc(100vh - 200px)',
         minHeight: '500px'
       }}>
         {/* Scenario Card */}
@@ -267,13 +360,14 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
           
           <div style={{
             flex: 1,
-            marginBottom: '20px'
+            display: 'flex',
+            flexDirection: 'column'
           }}>
             <div style={{
-              maxHeight: '173px', // 6 lines * 18px font * 1.6 line height
               overflowY: 'auto',
               marginBottom: '15px',
-              paddingRight: '10px'
+              paddingRight: '10px',
+              flex: 1
             }}>
               <p style={{
                 fontSize: '18px',
@@ -284,109 +378,12 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
                 {scenario}
               </p>
             </div>
-
-            {/* Question metadata */}
-            {question && (
-              <div style={{
-                display: 'flex',
-                gap: '10px',
-                flexWrap: 'wrap',
-                marginBottom: '15px'
-              }}>
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  backgroundColor: '#fef3c7',
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  color: '#92400e',
-                  fontWeight: '500'
-                }}>
-                  <span>🌐</span>
-                  <span>Language: {question.language}</span>
-                </div>
-
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  backgroundColor: '#dbeafe',
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  color: '#1e40af',
-                  fontWeight: '500'
-                }}>
-                  <span>✨</span>
-                  <span>{question.expertise?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
-                </div>
-
-                <div style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  backgroundColor: question.difficulty === 'beginner' ? '#dcfce7' : question.difficulty === 'intermediate' ? '#fef9c3' : '#fecaca',
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  color: question.difficulty === 'beginner' ? '#166534' : question.difficulty === 'intermediate' ? '#854d0e' : '#991b1b',
-                  fontWeight: '500'
-                }}>
-                  <span>{question.difficulty === 'beginner' ? '⭐' : question.difficulty === 'intermediate' ? '⭐⭐' : '⭐⭐⭐'}</span>
-                  <span>{question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Language Selection */}
-          <div style={{
-            borderTop: '1px solid #e2e8f0',
-            paddingTop: '20px',
-            marginBottom: '20px'
-          }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '10px', 
-              fontWeight: '600',
-              color: '#374151',
-              fontSize: '14px'
-            }}>
-              Select Language:
-            </label>
-            <select
-              value={selectedLanguage}
-              onChange={(e) => setSelectedLanguage(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                border: '2px solid #e2e8f0',
-                borderRadius: '10px',
-                fontSize: '14px',
-                backgroundColor: '#f8fafc',
-                color: '#374151',
-                outline: 'none',
-                transition: 'all 0.3s ease'
-              }}
-              disabled={isRecording}
-              onFocus={(e) => {
-                e.target.style.borderColor = '#ea580c';
-                e.target.style.backgroundColor = 'white';
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = '#e2e8f0';
-                e.target.style.backgroundColor = '#f8fafc';
-              }}
-            >
-              <option value="en-US">English</option>
-              <option value="hi-IN">Hindi</option>
-            </select>
           </div>
 
           {/* Additional Components */}
           <div style={{
+            borderTop: '1px solid #e2e8f0',
+            paddingTop: '20px',
             display: 'flex',
             flexDirection: 'column',
             gap: '15px'

@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { getRandomQuestionByCriteria } from '../data/questions';
+import { getRandomQuestionByCriteria, getQuestionById } from '../data/questionsMultilingual';
 import geminiService from '../services/geminiService';
 
 const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, onLoadingEnd }) => {
   const [question, setQuestion] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(basicInfo?.preferredLanguage || 'english');
+  const [questionId, setQuestionId] = useState(null);
+
+  // All available languages - always show all 5 languages
+  const availableLanguages = [
+    { value: 'english', label: 'English' },
+    { value: 'hindi', label: 'हिंदी (Hindi)' },
+    { value: 'tamil', label: 'தமிழ் (Tamil)' },
+    { value: 'telugu', label: 'తెలుగు (Telugu)' },
+    { value: 'marathi', label: 'मराठी (Marathi)' }
+  ];
 
   useEffect(() => {
     // Determine difficulty based on years of experience
@@ -30,12 +41,32 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
       'Crystal Healing': 'crystal-healing'
     };
 
-    const expertise = expertiseMap[basicInfo?.experienceType] || null;
+    // Get the first selected expertise type from the array
+    const experienceTypes = basicInfo?.experienceTypes || basicInfo?.experienceType || [];
+    const firstExpertise = Array.isArray(experienceTypes) ? experienceTypes[0] : experienceTypes;
+    const expertise = expertiseMap[firstExpertise] || null;
 
-    // Get a random question matching the criteria
-    const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty);
-    setQuestion(selectedQuestion);
-  }, [basicInfo]);
+    // If we already have a question ID, get the same question in the new language
+    if (questionId) {
+      const translatedQuestion = getQuestionById(questionId, selectedLanguage);
+      setQuestion(translatedQuestion);
+    } else {
+      // Get a random question matching the criteria and selected language
+      const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty, selectedLanguage);
+      setQuestion(selectedQuestion);
+      // Store the question ID for language changes
+      if (selectedQuestion) {
+        setQuestionId(selectedQuestion.id);
+      }
+    }
+
+    // Reset answer when language changes
+    setUserAnswer('');
+  }, [basicInfo, selectedLanguage]);
+
+  const handleLanguageChange = (e) => {
+    setSelectedLanguage(e.target.value);
+  };
 
   const handleSubmit = async () => {
     if (!userAnswer.trim()) {
@@ -104,14 +135,14 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
       flexDirection: 'column'
     }}>
       {/* Header */}
-      <div style={{ 
-        textAlign: 'center', 
+      <div style={{
+        textAlign: 'center',
         marginBottom: '40px',
         maxWidth: '1200px',
         width: '100%',
         margin: '0 auto 40px auto'
       }}>
-        <h1 style={{ 
+        <h1 style={{
           margin: 0,
           fontSize: '2.2rem',
           background: 'linear-gradient(135deg, #ea580c, #f97316, #fb923c)',
@@ -123,28 +154,84 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
         }}>
           Knowledge Test
         </h1>
-        
-        <p style={{ 
-          fontSize: '16px', 
+
+        <p style={{
+          fontSize: '16px',
           color: '#475569',
           lineHeight: '1.6',
-          margin: 0
+          margin: '0 0 15px 0',
+          fontWeight: '500'
         }}>
           Demonstrate your astrological expertise by providing detailed answers to the questions below.
         </p>
+
+        {/* Language Selection Dropdown */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '10px',
+          marginTop: '15px'
+        }}>
+          <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#1976d2'
+          }}>
+            <span>🌐 Select Language / भाषा चुनें / மொழி / భాష / भाषा निवडा:</span>
+            <select
+              value={selectedLanguage}
+              onChange={handleLanguageChange}
+              disabled={isLoading}
+              style={{
+                padding: '10px 15px',
+                fontSize: '14px',
+                borderRadius: '8px',
+                border: '2px solid #2196f3',
+                backgroundColor: 'white',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                fontWeight: '500',
+                color: '#333',
+                outline: 'none',
+                minWidth: '200px'
+              }}
+            >
+              {availableLanguages.map(lang => (
+                <option key={lang.value} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        {userAnswer && (
+          <div style={{
+            marginTop: '10px',
+            padding: '8px 12px',
+            backgroundColor: '#fff3cd',
+            borderRadius: '8px',
+            fontSize: '12px',
+            color: '#856404',
+            display: 'inline-block'
+          }}>
+            ⚠️ Note: Changing language will reset your answer
+          </div>
+        )}
       </div>
 
       {/* Main Content - Two Column Layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '30px',
+        gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+        gap: '20px',
         maxWidth: '1200px',
         width: '100%',
         margin: '0 auto',
         flex: 1,
         alignItems: 'stretch',
-        height: 'calc(100vh - 200px)',
         minHeight: '500px'
       }}>
         {/* Question Card */}
@@ -178,93 +265,38 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
             </h2>
           </div>
           
-          <div style={{ 
-            flex: 1, 
-            marginBottom: '20px',
-            overflowY: 'auto',
-            maxHeight: '300px',
-            paddingRight: '10px'
+          <div style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
           }}>
             <div style={{
-              maxHeight: '173px', // 6 lines * 18px font * 1.6 line height
               overflowY: 'auto',
               marginBottom: '15px',
               paddingRight: '10px',
-              padding: '10px'
+              flex: 1
             }}>
-              <p style={{ 
-                fontSize: '18px', 
-                lineHeight: '1.6', 
+              <p style={{
+                fontSize: '18px',
+                lineHeight: '1.6',
                 color: '#374151',
                 margin: 0
               }}>
                 {question.question}
               </p>
             </div>
-            
-            {/* Question metadata outside scrollable content */}
-            <div style={{
-              display: 'flex',
-              gap: '10px',
-              flexWrap: 'wrap',
-              marginBottom: '20px'
-            }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                backgroundColor: '#fef3c7',
-                borderRadius: '20px',
-                fontSize: '14px',
-                color: '#92400e',
-                fontWeight: '500'
-              }}>
-                <span>🌐</span>
-                <span>Language: {question.language}</span>
-              </div>
-
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                backgroundColor: '#dbeafe',
-                borderRadius: '20px',
-                fontSize: '14px',
-                color: '#1e40af',
-                fontWeight: '500'
-              }}>
-                <span>✨</span>
-                <span>{question.expertise?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
-              </div>
-
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                backgroundColor: question.difficulty === 'beginner' ? '#dcfce7' : question.difficulty === 'intermediate' ? '#fef9c3' : '#fecaca',
-                borderRadius: '20px',
-                fontSize: '14px',
-                color: question.difficulty === 'beginner' ? '#166534' : question.difficulty === 'intermediate' ? '#854d0e' : '#991b1b',
-                fontWeight: '500'
-              }}>
-                <span>{question.difficulty === 'beginner' ? '⭐' : question.difficulty === 'intermediate' ? '⭐⭐' : '⭐⭐⭐'}</span>
-                <span>{question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
-              </div>
-            </div>
           </div>
 
-          {/* Additional Components */}
+          {/* Additional Components - Helpful Tips */}
           <div style={{
             borderTop: '1px solid #e2e8f0',
             paddingTop: '20px',
+            marginTop: '20px',
             display: 'flex',
             flexDirection: 'column',
             gap: '15px'
           }}>
-            {/* Help Section */}
+            {/* Answering Tips */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -285,7 +317,7 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
               </div>
             </div>
 
-            {/* Support Section */}
+            {/* How to Answer */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -295,18 +327,18 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
               borderRadius: '10px',
               border: '1px solid #bbf7d0'
             }}>
-              <span style={{ fontSize: '1.2rem' }}>🆘</span>
+              <span style={{ fontSize: '1.2rem' }}>📋</span>
               <div style={{ textAlign: 'left' }}>
                 <div style={{ fontSize: '14px', fontWeight: '600', color: '#166534', marginBottom: '2px' }}>
-                  Need Help?
+                  How to Answer
                 </div>
                 <div style={{ fontSize: '12px', color: '#14532d' }}>
-                  Contact support if you encounter any issues
+                  1. Read question carefully → 2. Write detailed response → 3. Include remedies → 4. Submit
                 </div>
               </div>
             </div>
 
-            {/* Time Info */}
+            {/* Need Help */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -316,13 +348,13 @@ const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, o
               borderRadius: '10px',
               border: '1px solid #fde047'
             }}>
-              <span style={{ fontSize: '1.2rem' }}>⏱️</span>
+              <span style={{ fontSize: '1.2rem' }}>🆘</span>
               <div style={{ textAlign: 'left' }}>
                 <div style={{ fontSize: '14px', fontWeight: '600', color: '#a16207', marginBottom: '2px' }}>
-                  Take Your Time
+                  Need Help?
                 </div>
                 <div style={{ fontSize: '12px', color: '#713f12' }}>
-                  No time limit - provide your best answer
+                  Contact support if you encounter any issues
                 </div>
               </div>
             </div>

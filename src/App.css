@@ -112,4 +112,44 @@
   .App {
     padding: 10px;
   }
+
+  /* Form inputs on mobile */
+  input[type="text"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+  }
+
+  /* Grid layouts on mobile */
+  div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Two column layouts on mobile */
+  div[style*="1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  h1 {
+    font-size: 1.2rem !important;
+  }
+
+  h2 {
+    font-size: 1.1rem !important;
+  }
+
+  h3 {
+    font-size: 1rem !important;
+  }
+
+  button {
+    font-size: 14px !important;
+    padding: 8px 16px !important;
+  }
 }
