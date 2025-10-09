@@ -50,10 +50,16 @@ export const getHeaderBackHandler = (currentStep) => {
 export const getHeaderDisabledState = (currentStep, formData, mcqState, communicationState) => {
   switch (currentStep) {
     case 'basicInfo':
-      return !formData.name || 
-             !formData.mobileNumber || 
-             !formData.dob || 
-             !formData.experienceType || 
+      // Handle both experienceType (for backward compatibility) and experienceTypes (new multi-select)
+      const expertise = formData.experienceType || formData.experienceTypes;
+      const isExpertiseValid = Array.isArray(expertise)
+        ? expertise.length > 0 && expertise.length <= 3
+        : !!expertise;
+
+      return !formData.name ||
+             !formData.mobileNumber ||
+             !formData.dob ||
+             !isExpertiseValid ||
              formData.yearOfExperience < 0;
     case 'prerequisites':
       return false;

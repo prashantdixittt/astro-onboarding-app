@@ -17,6 +17,12 @@ function App() {
     setFormData,
     mcqState,
     setMcqState,
+    mcqResults,
+    setMcqResults,
+    knowledgeResults,
+    setKnowledgeResults,
+    communicationResults,
+    setCommunicationResults,
     communicationState,
     setCommunicationState,
     inputChangeTrigger,
@@ -47,14 +53,17 @@ function App() {
   };
 
   const handleMCQComplete = (results) => {
+    setMcqResults(results);
     setCurrentStep('knowledge');
   };
 
   const handleKnowledgeComplete = (results) => {
+    setKnowledgeResults(results);
     setCurrentStep('communication');
   };
 
   const handleCommunicationComplete = (results) => {
+    setCommunicationResults(results);
     setCurrentStep('thankyou');
   };
 
@@ -129,6 +138,9 @@ function App() {
           setFormData={setFormData}
           mcqState={mcqState}
           setMcqState={setMcqState}
+          mcqResults={mcqResults}
+          knowledgeResults={knowledgeResults}
+          communicationResults={communicationResults}
           communicationState={communicationState}
           setCommunicationState={setCommunicationState}
           inputChangeTrigger={inputChangeTrigger}

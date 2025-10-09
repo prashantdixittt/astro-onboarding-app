@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getMCQsByExperience, supportedLanguages } from '../data/mcqQuestionsMultilingual';
+import { getMCQsByExperience, getMCQsByMultipleExpertise, supportedLanguages } from '../data/mcqQuestionsMultilingual';
 
 const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLoadingEnd }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('english');
+  const [selectedLanguage, setSelectedLanguage] = useState(basicInfo?.preferredLanguage || 'english');
 
   const handleSubmit = () => {
     setIsSubmitting(true);
@@ -29,9 +29,18 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
   };
 
   useEffect(() => {
-    // Get MCQs based on experience type, years, and selected language
+    // Get MCQs based on experience type(s), years, and selected language
     if (basicInfo && basicInfo.experienceType) {
-      const mcqs = getMCQsByExperience(basicInfo.experienceType, basicInfo.yearOfExperience, selectedLanguage);
+      let mcqs;
+
+      // Check if experienceType is an array (multiple expertises)
+      if (Array.isArray(basicInfo.experienceType)) {
+        mcqs = getMCQsByMultipleExpertise(basicInfo.experienceType, basicInfo.yearOfExperience, selectedLanguage);
+      } else {
+        // Single expertise - use the original function
+        mcqs = getMCQsByExperience(basicInfo.experienceType, basicInfo.yearOfExperience, selectedLanguage);
+      }
+
       setQuestions(mcqs);
     }
   }, [basicInfo, selectedLanguage]);
@@ -199,15 +208,17 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
         gap: '10px'
       }}>
         <h2 style={{ color: '#ea580c', margin: 0 }}>
-          📝 MCQ Test - {basicInfo.experienceType}
+          📝 MCQ Test - {Array.isArray(basicInfo.experienceType)
+            ? basicInfo.experienceType.join(', ')
+            : basicInfo.experienceType}
         </h2>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
           gap: '20px',
           flexWrap: 'wrap'
         }}>
-          <span style={{ 
+          <span style={{
             backgroundColor: '#ea580c',
             color: 'white',
             padding: '8px 16px',

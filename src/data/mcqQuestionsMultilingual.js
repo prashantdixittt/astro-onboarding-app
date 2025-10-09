@@ -6926,3 +6926,58 @@ export const getMCQsByExperience = (experienceType, yearsOfExperience, language 
         correctAnswer: (q.translations[language]?.options || q.translations.english.options)[q.correctAnswerIndex]
     }));
 };
+
+// Get MCQs for multiple expertise areas with dynamic distribution
+// Distribution logic:
+// - 1 expertise: 10 questions
+// - 2 expertises: 5 + 5 questions
+// - 3 expertises: 4 + 3 + 3 questions
+export const getMCQsByMultipleExpertise = (experienceTypes, yearsOfExperience, language = 'english') => {
+    if (!experienceTypes || experienceTypes.length === 0) {
+        return [];
+    }
+
+    // Distribution based on number of expertises
+    const distributions = {
+        1: [10],
+        2: [5, 5],
+        3: [4, 3, 3]
+    };
+
+    const distribution = distributions[experienceTypes.length] || [10];
+    const allQuestions = [];
+
+    experienceTypes.forEach((experienceType, index) => {
+        const questionCount = distribution[index] || 0;
+        const questions = multilingualMCQQuestions[experienceType] || multilingualMCQQuestions["Tarot"];
+
+        let difficulty;
+        if (yearsOfExperience <= 2) {
+            difficulty = "beginner";
+        } else if (yearsOfExperience <= 5) {
+            difficulty = "intermediate";
+        } else {
+            difficulty = "expert";
+        }
+
+        // Get questions for the difficulty level, fallback to beginner if not available
+        const availableQuestions = questions[difficulty] || questions["beginner"] || questions["intermediate"];
+
+        // RANDOM SELECTION: Shuffle using Fisher-Yates algorithm and select required count
+        const shuffled = [...availableQuestions].sort(() => Math.random() - 0.5);
+
+        // Add questions with language-specific content
+        const selectedQuestions = shuffled.slice(0, questionCount).map(q => ({
+            id: q.id,
+            question: q.translations[language]?.question || q.translations.english.question,
+            options: q.translations[language]?.options || q.translations.english.options,
+            correctAnswerIndex: q.correctAnswerIndex,
+            correctAnswer: (q.translations[language]?.options || q.translations.english.options)[q.correctAnswerIndex],
+            expertiseArea: experienceType // Tag which expertise area this question is from
+        }));
+
+        allQuestions.push(...selectedQuestions);
+    });
+
+    return allQuestions;
+};
