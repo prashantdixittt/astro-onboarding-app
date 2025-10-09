@@ -61,6 +61,51 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validateField = (field, value) => {
+    const newErrors = {};
+
+    switch (field) {
+      case 'name':
+        if (!value.trim()) {
+          newErrors.name = 'Name is required';
+        }
+        break;
+      case 'mobileNumber':
+        if (!value.trim()) {
+          newErrors.mobileNumber = 'Mobile number is required';
+        } else if (!/^\d{10}$/.test(value)) {
+          newErrors.mobileNumber = 'Please enter a valid 10-digit mobile number';
+        }
+        break;
+      case 'dob':
+        if (!value) {
+          newErrors.dob = 'Date of birth is required';
+        }
+        break;
+      case 'experienceTypes':
+        if (!value || value.length === 0) {
+          newErrors.experienceTypes = 'Please select at least one area of expertise';
+        } else if (value.length > 3) {
+          newErrors.experienceTypes = 'Please select maximum 3 areas of expertise';
+        }
+        break;
+      case 'comfortableLanguages':
+        if (!value || value.length === 0) {
+          newErrors.comfortableLanguages = 'Please select at least one language';
+        }
+        break;
+      case 'yearOfExperience':
+        if (value < 0 || value > 50) {
+          newErrors.yearOfExperience = 'Please enter a valid number of years (0-50)';
+        }
+        break;
+      default:
+        break;
+    }
+
+    return newErrors;
+  };
+
   const handleInputChange = (field, value) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
@@ -74,6 +119,13 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     }
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleBlur = (field, value) => {
+    const fieldErrors = validateField(field, value);
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(prev => ({ ...prev, ...fieldErrors }));
     }
   };
 
@@ -142,17 +194,17 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
   };
 
   return (
-    <div style={{ 
-      minHeight: 'calc(100vh - 100px)', 
-      padding: '20px',
+    <div style={{
+      minHeight: 'calc(100vh - 100px)',
+      padding: '10px',
       backgroundColor: '#f8fafc'
     }}>
-      <div style={{ 
-        maxWidth: '800px', 
+      <div style={{
+        maxWidth: '800px',
         margin: '0 auto',
         backgroundColor: 'white',
         borderRadius: '12px',
-        padding: '30px',
+        padding: '20px',
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
       }}>
         {/* Header */}
@@ -180,11 +232,11 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
 
         <form onSubmit={handleSubmit}>
           {/* Name and Mobile */}
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '20px',
-            marginBottom: '20px'
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '15px',
+            marginBottom: '25px'
           }}>
             <div>
               <label style={{ 
@@ -200,6 +252,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                 required
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
+                onBlur={(e) => handleBlur('name', e.target.value)}
                 placeholder="Enter your full name"
                 style={{
                   width: '100%',
@@ -235,6 +288,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                     handleInputChange('mobileNumber', value);
                   }
                 }}
+                onBlur={(e) => handleBlur('mobileNumber', e.target.value)}
                 placeholder="Enter 10-digit mobile number"
                 maxLength="10"
                 style={{
@@ -254,7 +308,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
           </div>
 
           {/* Date of Birth */}
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '30px' }}>
             <label style={{ 
               display: 'block', 
               marginBottom: '8px', 
@@ -268,6 +322,9 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               required
               value={formData.dob}
               onChange={(e) => handleInputChange('dob', e.target.value)}
+              onBlur={(e) => handleBlur('dob', e.target.value)}
+              min="1900-01-01"
+              max="2024-12-31"
               style={{
                 width: '100%',
                 padding: '12px',
@@ -284,7 +341,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
           </div>
 
           {/* Areas of Expertise - Multi-select */}
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '30px' }}>
             <label style={{
               display: 'block',
               marginBottom: '8px',
@@ -304,7 +361,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
             </p>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
               gap: '10px'
             }}>
               {experienceTypes.map((type) => {
@@ -312,18 +369,19 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                 const isDisabled = !isSelected && formData.experienceTypes.length >= 3;
 
                 return (
-                  <label
+                  <div
                     key={type}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '12px',
+                      padding: '14px 16px',
                       border: `2px solid ${isSelected ? '#ea580c' : '#e2e8f0'}`,
-                      borderRadius: '8px',
+                      borderRadius: '10px',
                       cursor: isDisabled ? 'not-allowed' : 'pointer',
-                      backgroundColor: isSelected ? '#fef3c7' : isDisabled ? '#f3f4f6' : 'white',
+                      backgroundColor: isSelected ? '#ffedd5' : isDisabled ? '#f3f4f6' : 'white',
                       opacity: isDisabled ? 0.6 : 1,
-                      transition: 'all 0.2s ease'
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSelected ? '0 2px 8px rgba(234, 88, 12, 0.2)' : 'none'
                     }}
                     onClick={(e) => {
                       if (!isDisabled) {
@@ -334,12 +392,18 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                     <input
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => {}} // Handled by label onClick
+                      onChange={() => {}} // Handled by div onClick
                       disabled={isDisabled}
-                      style={{ marginRight: '10px', transform: 'scale(1.2)' }}
+                      style={{
+                        marginRight: '12px',
+                        transform: 'scale(1.3)',
+                        accentColor: '#ea580c',
+                        cursor: isDisabled ? 'not-allowed' : 'pointer',
+                        pointerEvents: 'none'
+                      }}
                     />
-                    <span style={{ fontWeight: '500' }}>{type}</span>
-                  </label>
+                    <span style={{ fontWeight: '500', color: isSelected ? '#ea580c' : '#374151' }}>{type}</span>
+                  </div>
                 );
               })}
             </div>
@@ -351,7 +415,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
           </div>
 
           {/* Languages You Are Comfortable In - Multi-select */}
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '30px' }}>
             <label style={{
               display: 'block',
               marginBottom: '8px',
@@ -371,35 +435,42 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
             </p>
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
               gap: '10px'
             }}>
               {availableLanguages.map((language) => {
                 const isSelected = formData.comfortableLanguages.includes(language);
 
                 return (
-                  <label
+                  <div
                     key={language}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '12px',
-                      border: `2px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
-                      borderRadius: '8px',
+                      padding: '14px 16px',
+                      border: `2px solid ${isSelected ? '#ea580c' : '#e2e8f0'}`,
+                      borderRadius: '10px',
                       cursor: 'pointer',
-                      backgroundColor: isSelected ? '#d1fae5' : 'white',
-                      transition: 'all 0.2s ease'
+                      backgroundColor: isSelected ? '#ffedd5' : 'white',
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSelected ? '0 2px 8px rgba(234, 88, 12, 0.2)' : 'none'
                     }}
                     onClick={() => handleLanguageToggle(language)}
                   >
                     <input
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => {}} // Handled by label onClick
-                      style={{ marginRight: '10px', transform: 'scale(1.2)' }}
+                      onChange={() => {}} // Handled by div onClick
+                      style={{
+                        marginRight: '12px',
+                        transform: 'scale(1.3)',
+                        accentColor: '#ea580c',
+                        cursor: 'pointer',
+                        pointerEvents: 'none'
+                      }}
                     />
-                    <span style={{ fontWeight: '500', fontSize: '14px' }}>{language}</span>
-                  </label>
+                    <span style={{ fontWeight: '500', fontSize: '14px', color: isSelected ? '#ea580c' : '#374151' }}>{language}</span>
+                  </div>
                 );
               })}
             </div>
@@ -411,7 +482,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
           </div>
 
           {/* Preferred Language */}
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '30px' }}>
             <label style={{
               display: 'block',
               marginBottom: '8px',
@@ -449,7 +520,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
           </div>
 
           {/* Years of Experience */}
-          <div style={{ marginBottom: '20px' }}>
+          <div style={{ marginBottom: '30px' }}>
             <label style={{ 
               display: 'block', 
               marginBottom: '8px', 
@@ -464,6 +535,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               max="50"
               value={formData.yearOfExperience}
               onChange={(e) => handleInputChange('yearOfExperience', parseInt(e.target.value) || 0)}
+              onBlur={(e) => handleBlur('yearOfExperience', parseInt(e.target.value) || 0)}
               placeholder="Enter years of experience"
               style={{
                 width: '100%',

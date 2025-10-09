@@ -139,7 +139,7 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
 
   return (
     <div style={{
-      padding: '20px',
+      padding: '10px',
       maxWidth: '800px',
       margin: '0 auto',
       fontFamily: 'Arial, sans-serif'

@@ -18,7 +18,7 @@ const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqStat
         };
       case 'mcq':
         return {
-          label: mcqState?.isSubmitting ? 'Submitting...' : 'Next',
+          label: mcqState?.isSubmitting ? 'Submitting...' : (mcqState?.isLastQuestion ? 'Finish' : 'Next'),
           show: true,
           disabled: isDisabled || mcqState?.isSubmitting || false
         };
@@ -55,11 +55,13 @@ const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqStat
       background: 'rgba(255, 255, 255, 0.95)',
       backdropFilter: 'blur(10px)',
       borderBottom: '1px solid #e2e8f0',
-      padding: '15px 20px',
+      padding: '10px 15px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      flexWrap: 'wrap',
+      gap: '10px'
     }}>
       {/* Logo and App Name */}
       <div style={{
@@ -70,7 +72,7 @@ const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqStat
         <Logo size={45} />
         <h1 style={{
           margin: 0,
-          fontSize: '1.5rem',
+          fontSize: window.innerWidth > 768 ? '1.5rem' : '1.2rem',
           background: 'linear-gradient(135deg, #ea580c, #f97316, #fb923c)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
