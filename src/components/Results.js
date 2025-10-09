@@ -89,7 +89,8 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
             border: '1px solid #ddd',
             borderRadius: '8px',
             padding: '20px',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            gridColumn: '1 / -1'  // Span full width
           }}>
             <h3 style={{ color: '#ff9800', marginBottom: '15px' }}>📝 MCQ Test</h3>
             <div style={{ fontSize: '32px', fontWeight: 'bold', color: getGradeColor(mcqResults.score) }}>
@@ -98,11 +99,81 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
             <p style={{ margin: '10px 0', color: '#666' }}>
               {mcqResults.correctAnswers} out of {mcqResults.totalQuestions} correct
             </p>
-            <div style={{ fontSize: '14px', color: '#666' }}>
+            <div style={{ fontSize: '14px', color: '#666', marginBottom: '20px' }}>
               <strong>Subject:</strong> {basicInfo?.experience?.type}<br/>
-              <strong>Difficulty:</strong> {basicInfo?.yearOfExperience <= 2 ? 'Beginner' : 
-                                            basicInfo?.yearOfExperience <= 5 ? 'Intermediate' : 'Expert'}
+              <strong>Difficulty:</strong> {basicInfo?.yearOfExperience <= 2 ? 'Beginner' :
+                                            basicInfo?.yearOfExperience <= 5 ? 'Intermediate' : 'Expert'}<br/>
+              {mcqResults.language && <><strong>Language:</strong> {mcqResults.language.charAt(0).toUpperCase() + mcqResults.language.slice(1)}</>}
             </div>
+
+            <h4 style={{ marginTop: '20px', marginBottom: '15px', color: '#1976d2' }}>📋 Detailed Question-by-Question Review:</h4>
+            {mcqResults.detailedResults && mcqResults.detailedResults.map((result, index) => (
+              <div key={result.id} style={{
+                border: `2px solid ${result.isCorrect ? '#4caf50' : '#f44336'}`,
+                borderRadius: '8px',
+                padding: '15px',
+                marginBottom: '15px',
+                backgroundColor: result.isCorrect ? '#f1f8f4' : '#fff5f5'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '10px'
+                }}>
+                  <strong style={{ color: '#333' }}>Question {index + 1}:</strong>
+                  <span style={{
+                    padding: '4px 12px',
+                    borderRadius: '12px',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    backgroundColor: result.isCorrect ? '#4caf50' : '#f44336',
+                    color: 'white'
+                  }}>
+                    {result.isCorrect ? '✓ Correct' : '✗ Wrong'}
+                  </span>
+                </div>
+
+                <div style={{
+                  fontSize: '16px',
+                  marginBottom: '12px',
+                  color: '#333',
+                  lineHeight: '1.5'
+                }}>
+                  {result.question}
+                </div>
+
+                <div style={{ fontSize: '14px', marginTop: '10px' }}>
+                  <div style={{
+                    marginBottom: '8px',
+                    padding: '8px',
+                    backgroundColor: result.isCorrect ? '#e8f5e9' : '#ffebee',
+                    borderRadius: '4px',
+                    borderLeft: `4px solid ${result.isCorrect ? '#4caf50' : '#f44336'}`
+                  }}>
+                    <strong style={{ color: '#555' }}>Your Answer: </strong>
+                    <span style={{ color: result.isCorrect ? '#2e7d32' : '#c62828' }}>
+                      {result.selectedAnswer}
+                    </span>
+                  </div>
+
+                  {!result.isCorrect && (
+                    <div style={{
+                      marginBottom: '8px',
+                      padding: '8px',
+                      backgroundColor: '#e8f5e9',
+                      borderRadius: '4px',
+                      borderLeft: '4px solid #4caf50'
+                    }}>
+                      <strong style={{ color: '#555' }}>Correct Answer: </strong>
+                      <span style={{ color: '#2e7d32' }}>
+                        {result.correctAnswer}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
         {/* Knowledge Test Results */}

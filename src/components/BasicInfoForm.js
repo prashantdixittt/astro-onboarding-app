@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
+import { supportedLanguages } from '../data/mcqQuestionsMultilingual';
 
 const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
   const [formData, setFormData] = useState({
     name: '',
     mobileNumber: '',
     dob: '',
-    experienceType: '',
+    experienceTypes: [], // Changed to array for multi-select
     yearOfExperience: 0,
     selfRate: 5,
+    preferredLanguage: 'english', // Added language preference
+    comfortableLanguages: [], // Languages you are comfortable in
     resume: null
   });
 
   const [errors, setErrors] = useState({});
 
   const experienceTypes = [
-    'Tarot', 'Lal Kitab', 'Palmistry', 'Vedic Astrology', 
+    'Tarot', 'Lal Kitab', 'Palmistry', 'Vedic Astrology',
     'Numerology', 'Vastu Shastra', 'Face Reading', 'Crystal Healing'
+  ];
+
+  const availableLanguages = [
+    'English', 'Hindi', 'Tamil', 'Telugu', 'Marathi',
+    'Bengali', 'Kannada', 'Malayalam', 'Gujarati', 'Punjabi'
   ];
 
   const validateForm = () => {
@@ -35,8 +43,14 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
       newErrors.dob = 'Date of birth is required';
     }
 
-    if (!formData.experienceType) {
-      newErrors.experienceType = 'Please select your area of expertise';
+    if (!formData.experienceTypes || formData.experienceTypes.length === 0) {
+      newErrors.experienceTypes = 'Please select at least one area of expertise';
+    } else if (formData.experienceTypes.length > 3) {
+      newErrors.experienceTypes = 'Please select maximum 3 areas of expertise';
+    }
+
+    if (!formData.comfortableLanguages || formData.comfortableLanguages.length === 0) {
+      newErrors.comfortableLanguages = 'Please select at least one language';
     }
 
     if (formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
@@ -51,11 +65,41 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
     if (onFormDataChange) {
-      onFormDataChange(newFormData);
+      // Also pass experienceType for header validation
+      const dataForParent = {
+        ...newFormData,
+        experienceType: field === 'experienceTypes' ? value : newFormData.experienceTypes
+      };
+      onFormDataChange(dataForParent);
     }
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
+  };
+
+  const handleExpertiseToggle = (type) => {
+    let newExpertise = [...formData.experienceTypes];
+    if (newExpertise.includes(type)) {
+      newExpertise = newExpertise.filter(t => t !== type);
+    } else {
+      if (newExpertise.length < 3) {
+        newExpertise.push(type);
+      } else {
+        // Show warning if trying to select more than 3
+        return;
+      }
+    }
+    handleInputChange('experienceTypes', newExpertise);
+  };
+
+  const handleLanguageToggle = (language) => {
+    let newLanguages = [...formData.comfortableLanguages];
+    if (newLanguages.includes(language)) {
+      newLanguages = newLanguages.filter(l => l !== language);
+    } else {
+      newLanguages.push(language);
+    }
+    handleInputChange('comfortableLanguages', newLanguages);
   };
 
   const handleFileUpload = (e) => {
@@ -64,7 +108,11 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
       const newFormData = { ...formData, resume: file };
       setFormData(newFormData);
       if (onFormDataChange) {
-        onFormDataChange(newFormData);
+        const dataForParent = {
+          ...newFormData,
+          experienceType: newFormData.experienceTypes
+        };
+        onFormDataChange(dataForParent);
       }
     }
   };
@@ -72,15 +120,24 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onComplete(formData);
+      // Transform experienceTypes array to experienceType for backward compatibility
+      const submissionData = {
+        ...formData,
+        experienceType: formData.experienceTypes // MCQTest expects this as array or string
+      };
+      onComplete(submissionData);
     }
   };
 
   const isFormValid = () => {
-    return formData.name && 
-           formData.mobileNumber && 
-           formData.dob && 
-           formData.experienceType && 
+    return formData.name &&
+           formData.mobileNumber &&
+           formData.dob &&
+           formData.experienceTypes &&
+           formData.experienceTypes.length > 0 &&
+           formData.experienceTypes.length <= 3 &&
+           formData.comfortableLanguages &&
+           formData.comfortableLanguages.length > 0 &&
            formData.yearOfExperience >= 0;
   };
 
@@ -226,52 +283,169 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
             )}
           </div>
 
-          {/* Experience Type */}
+          {/* Areas of Expertise - Multi-select */}
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '8px', 
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
               fontWeight: '600',
               color: '#374151'
             }}>
-              Area of Expertise *
+              Areas of Expertise * (Select 1-3)
             </label>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-              gap: '10px' 
+            <p style={{
+              fontSize: '14px',
+              color: '#6b7280',
+              marginBottom: '10px'
             }}>
-              {experienceTypes.map((type) => (
-                <label
-                  key={type}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '12px',
-                    border: `2px solid ${formData.experienceType === type ? '#ea580c' : '#e2e8f0'}`,
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    backgroundColor: formData.experienceType === type ? '#fef3c7' : 'white',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="experienceType"
-                    value={type}
-                    checked={formData.experienceType === type}
-                    onChange={(e) => handleInputChange('experienceType', e.target.value)}
-                    style={{ marginRight: '10px' }}
-                  />
-                  <span style={{ fontWeight: '500' }}>{type}</span>
-                </label>
-              ))}
+              {formData.experienceTypes.length > 0
+                ? `${formData.experienceTypes.length} selected`
+                : 'Select at least one area'}
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '10px'
+            }}>
+              {experienceTypes.map((type) => {
+                const isSelected = formData.experienceTypes.includes(type);
+                const isDisabled = !isSelected && formData.experienceTypes.length >= 3;
+
+                return (
+                  <label
+                    key={type}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '12px',
+                      border: `2px solid ${isSelected ? '#ea580c' : '#e2e8f0'}`,
+                      borderRadius: '8px',
+                      cursor: isDisabled ? 'not-allowed' : 'pointer',
+                      backgroundColor: isSelected ? '#fef3c7' : isDisabled ? '#f3f4f6' : 'white',
+                      opacity: isDisabled ? 0.6 : 1,
+                      transition: 'all 0.2s ease'
+                    }}
+                    onClick={(e) => {
+                      if (!isDisabled) {
+                        handleExpertiseToggle(type);
+                      }
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => {}} // Handled by label onClick
+                      disabled={isDisabled}
+                      style={{ marginRight: '10px', transform: 'scale(1.2)' }}
+                    />
+                    <span style={{ fontWeight: '500' }}>{type}</span>
+                  </label>
+                );
+              })}
             </div>
-            {errors.experienceType && (
+            {errors.experienceTypes && (
               <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
-                {errors.experienceType}
+                {errors.experienceTypes}
               </p>
             )}
+          </div>
+
+          {/* Languages You Are Comfortable In - Multi-select */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Languages You Are Comfortable In * (Select all that apply)
+            </label>
+            <p style={{
+              fontSize: '14px',
+              color: '#6b7280',
+              marginBottom: '10px'
+            }}>
+              {formData.comfortableLanguages.length > 0
+                ? `${formData.comfortableLanguages.length} selected`
+                : 'Select at least one language'}
+            </p>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+              gap: '10px'
+            }}>
+              {availableLanguages.map((language) => {
+                const isSelected = formData.comfortableLanguages.includes(language);
+
+                return (
+                  <label
+                    key={language}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '12px',
+                      border: `2px solid ${isSelected ? '#10b981' : '#e2e8f0'}`,
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      backgroundColor: isSelected ? '#d1fae5' : 'white',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onClick={() => handleLanguageToggle(language)}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => {}} // Handled by label onClick
+                      style={{ marginRight: '10px', transform: 'scale(1.2)' }}
+                    />
+                    <span style={{ fontWeight: '500', fontSize: '14px' }}>{language}</span>
+                  </label>
+                );
+              })}
+            </div>
+            {errors.comfortableLanguages && (
+              <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                {errors.comfortableLanguages}
+              </p>
+            )}
+          </div>
+
+          {/* Preferred Language */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{
+              display: 'block',
+              marginBottom: '8px',
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Preferred Language for Assessment *
+            </label>
+            <select
+              value={formData.preferredLanguage}
+              onChange={(e) => handleInputChange('preferredLanguage', e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
+                fontSize: '16px',
+                backgroundColor: 'white',
+                cursor: 'pointer'
+              }}
+            >
+              {supportedLanguages.map(lang => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.nativeName} ({lang.name})
+                </option>
+              ))}
+            </select>
+            <p style={{
+              fontSize: '14px',
+              color: '#6b7280',
+              marginTop: '5px'
+            }}>
+              All questions will be displayed in your selected language
+            </p>
           </div>
 
           {/* Years of Experience */}

@@ -1,36 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { getMCQsByExperience } from '../data/mcqQuestions';
+import { getMCQsByExperience, getMCQsByMultipleExpertise, supportedLanguages } from '../data/mcqQuestionsMultilingual';
 
 const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLoadingEnd }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(basicInfo?.preferredLanguage || 'english');
 
   const handleSubmit = () => {
     setIsSubmitting(true);
     if (onLoadingStart) onLoadingStart('Processing your MCQ responses...');
-    
+
     // Simulate processing time for better UX
     setTimeout(() => {
       const mcqResults = calculateScore();
-      
+
       onComplete({
         basicInfo,
-        mcqResults
+        mcqResults: {
+          ...mcqResults,
+          language: selectedLanguage
+        }
       });
-      
+
       if (onLoadingEnd) onLoadingEnd();
     }, 1000);
   };
 
   useEffect(() => {
-    // Get MCQs based on experience type and years
+    // Get MCQs based on experience type(s), years, and selected language
     if (basicInfo && basicInfo.experienceType) {
-      const mcqs = getMCQsByExperience(basicInfo.experienceType, basicInfo.yearOfExperience);
+      let mcqs;
+
+      // Check if experienceType is an array (multiple expertises)
+      if (Array.isArray(basicInfo.experienceType)) {
+        mcqs = getMCQsByMultipleExpertise(basicInfo.experienceType, basicInfo.yearOfExperience, selectedLanguage);
+      } else {
+        // Single expertise - use the original function
+        mcqs = getMCQsByExperience(basicInfo.experienceType, basicInfo.yearOfExperience, selectedLanguage);
+      }
+
       setQuestions(mcqs);
     }
-  }, [basicInfo]);
+  }, [basicInfo, selectedLanguage]);
 
 
   useEffect(() => {
@@ -38,7 +51,7 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
     if (onQuestionChange) {
       const currentQuestionId = questions[currentQuestion]?.id;
       const isCurrentQuestionAnswered = !!answers[currentQuestionId];
-      
+
       onQuestionChange({
         currentQuestion,
         totalQuestions: questions.length,
@@ -82,6 +95,14 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
     };
   };
 
+  const handleLanguageChange = (e) => {
+    const newLanguage = e.target.value;
+    setSelectedLanguage(newLanguage);
+    // Reset answers when language changes
+    setAnswers({});
+    setCurrentQuestion(0);
+  };
+
   const goToQuestion = (index) => {
     setCurrentQuestion(index);
   };
@@ -93,7 +114,7 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
       alert('Please select an answer before proceeding to the next question.');
       return;
     }
-    
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
@@ -117,31 +138,87 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
   const answeredCount = Object.keys(answers).length;
 
   return (
-    <div style={{ 
-      padding: '20px', 
-      maxWidth: '800px', 
+    <div style={{
+      padding: '20px',
+      maxWidth: '800px',
       margin: '0 auto',
       fontFamily: 'Arial, sans-serif'
     }}>
+      {/* Language Selector */}
+      <div style={{
+        marginBottom: '20px',
+        padding: '15px',
+        backgroundColor: '#f0f8ff',
+        borderRadius: '8px',
+        border: '1px solid #e1f5fe'
+      }}>
+        <label style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '15px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          color: '#1976d2'
+        }}>
+          <span>🌐 Select Language / भाषा चुनें / மொழி / భాష / भाषा निवडा:</span>
+          <select
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            disabled={isSubmitting}
+            style={{
+              padding: '10px 15px',
+              fontSize: '16px',
+              borderRadius: '6px',
+              border: '2px solid #2196f3',
+              backgroundColor: 'white',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              fontWeight: 'bold',
+              color: '#333',
+              minWidth: '150px'
+            }}
+          >
+            {supportedLanguages.map(lang => (
+              <option key={lang.code} value={lang.code}>
+                {lang.nativeName}
+              </option>
+            ))}
+          </select>
+        </label>
+        {Object.keys(answers).length > 0 && (
+          <div style={{
+            marginTop: '10px',
+            padding: '8px',
+            backgroundColor: '#fff3cd',
+            borderRadius: '4px',
+            fontSize: '14px',
+            color: '#856404'
+          }}>
+            ⚠️ Note: Changing language will reset your answers. Your current progress will be lost.
+          </div>
+        )}
+      </div>
+
       {/* Header */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '30px',
         flexWrap: 'wrap',
         gap: '10px'
       }}>
         <h2 style={{ color: '#ea580c', margin: 0 }}>
-          📝 MCQ Test - {basicInfo.experienceType}
+          📝 MCQ Test - {Array.isArray(basicInfo.experienceType)
+            ? basicInfo.experienceType.join(', ')
+            : basicInfo.experienceType}
         </h2>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
           gap: '20px',
           flexWrap: 'wrap'
         }}>
-          <span style={{ 
+          <span style={{
             backgroundColor: '#ea580c',
             color: 'white',
             padding: '8px 16px',

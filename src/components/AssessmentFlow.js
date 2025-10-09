@@ -6,16 +6,19 @@ import KnowledgeTest from './KnowledgeTest';
 import CommunicationTest from './CommunicationTest';
 import ThankYou from './ThankYou';
 
-const AssessmentFlow = ({ 
-  currentStep, 
-  basicInfo, 
-  formData, 
-  setFormData, 
-  mcqState, 
-  setMcqState, 
-  communicationState, 
-  setCommunicationState, 
-  inputChangeTrigger, 
+const AssessmentFlow = ({
+  currentStep,
+  basicInfo,
+  formData,
+  setFormData,
+  mcqState,
+  setMcqState,
+  mcqResults,
+  knowledgeResults,
+  communicationResults,
+  communicationState,
+  setCommunicationState,
+  inputChangeTrigger,
   setInputChangeTrigger,
   onBasicInfoComplete,
   onPrerequisitesNext,
@@ -82,7 +85,13 @@ const AssessmentFlow = ({
       
       case 'thankyou':
         return (
-          <ThankYou onRestart={onResetAssessment} />
+          <ThankYou
+            onRestart={onResetAssessment}
+            basicInfo={basicInfo}
+            mcqResults={mcqResults}
+            knowledgeResults={knowledgeResults}
+            communicationResults={communicationResults}
+          />
         );
       
       default:
