@@ -1,17 +1,49 @@
-import React, { useState, useRef } from 'react';
+  import React, { useState, useRef, useEffect } from 'react';
+import { getRandomQuestionByCriteria } from '../data/questions';
 import geminiService from '../services/geminiService';
 
-const CommunicationTest = ({ onComplete, onInputChange, onStateChange, onLoadingStart, onLoadingEnd }) => {
+const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange, onLoadingStart, onLoadingEnd }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const [transcript, setTranscript] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('en-US');
+  const [question, setQuestion] = useState(null);
   const mediaRecorderRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  const scenario = "A client asks: 'I've been feeling very anxious about my future. Can you help me understand what the stars say about overcoming my fears and finding peace?' Please respond with empathy and provide astrological guidance.";
+  useEffect(() => {
+    // Determine difficulty based on years of experience
+    let difficulty;
+    if (basicInfo?.yearOfExperience <= 2) {
+      difficulty = "beginner";
+    } else if (basicInfo?.yearOfExperience <= 5) {
+      difficulty = "intermediate";
+    } else {
+      difficulty = "expert";
+    }
+
+    // Map experienceType to expertise format (lowercase with hyphens)
+    const expertiseMap = {
+      'Tarot': 'tarot',
+      'Lal Kitab': 'lal-kitab',
+      'Palmistry': 'palmistry',
+      'Vedic Astrology': 'vedic-astrology',
+      'Numerology': 'numerology',
+      'Vastu Shastra': 'vastu-shastra',
+      'Face Reading': 'face-reading',
+      'Crystal Healing': 'crystal-healing'
+    };
+
+    const expertise = expertiseMap[basicInfo?.experienceType] || null;
+
+    // Get a random question matching the criteria
+    const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty);
+    setQuestion(selectedQuestion);
+  }, [basicInfo]);
+
+  const scenario = question?.question || "A client asks: 'I've been feeling very anxious about my future. Can you help me understand what the stars say about overcoming my fears and finding peace?' Please respond with empathy and provide astrological guidance.";
 
   const startRecording = async () => {
     try {
@@ -233,8 +265,8 @@ const CommunicationTest = ({ onComplete, onInputChange, onStateChange, onLoading
             </h2>
           </div>
           
-          <div style={{ 
-            flex: 1, 
+          <div style={{
+            flex: 1,
             marginBottom: '20px'
           }}>
             <div style={{
@@ -243,15 +275,70 @@ const CommunicationTest = ({ onComplete, onInputChange, onStateChange, onLoading
               marginBottom: '15px',
               paddingRight: '10px'
             }}>
-              <p style={{ 
-                fontSize: '18px', 
-                lineHeight: '1.6', 
+              <p style={{
+                fontSize: '18px',
+                lineHeight: '1.6',
                 color: '#374151',
                 margin: 0
               }}>
                 {scenario}
               </p>
             </div>
+
+            {/* Question metadata */}
+            {question && (
+              <div style={{
+                display: 'flex',
+                gap: '10px',
+                flexWrap: 'wrap',
+                marginBottom: '15px'
+              }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  backgroundColor: '#fef3c7',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  color: '#92400e',
+                  fontWeight: '500'
+                }}>
+                  <span>🌐</span>
+                  <span>Language: {question.language}</span>
+                </div>
+
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  backgroundColor: '#dbeafe',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  color: '#1e40af',
+                  fontWeight: '500'
+                }}>
+                  <span>✨</span>
+                  <span>{question.expertise?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
+                </div>
+
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  backgroundColor: question.difficulty === 'beginner' ? '#dcfce7' : question.difficulty === 'intermediate' ? '#fef9c3' : '#fecaca',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  color: question.difficulty === 'beginner' ? '#166534' : question.difficulty === 'intermediate' ? '#854d0e' : '#991b1b',
+                  fontWeight: '500'
+                }}>
+                  <span>{question.difficulty === 'beginner' ? '⭐' : question.difficulty === 'intermediate' ? '⭐⭐' : '⭐⭐⭐'}</span>
+                  <span>{question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Language Selection */}

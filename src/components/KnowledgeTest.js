@@ -1,15 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { getRandomQuestion } from '../data/questions';
+import { getRandomQuestionByCriteria } from '../data/questions';
 import geminiService from '../services/geminiService';
 
-const KnowledgeTest = ({ onComplete, onInputChange, onLoadingStart, onLoadingEnd }) => {
+const KnowledgeTest = ({ basicInfo, onComplete, onInputChange, onLoadingStart, onLoadingEnd }) => {
   const [question, setQuestion] = useState(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setQuestion(getRandomQuestion());
-  }, []);
+    // Determine difficulty based on years of experience
+    let difficulty;
+    if (basicInfo?.yearOfExperience <= 2) {
+      difficulty = "beginner";
+    } else if (basicInfo?.yearOfExperience <= 5) {
+      difficulty = "intermediate";
+    } else {
+      difficulty = "expert";
+    }
+
+    // Map experienceType to expertise format (lowercase with hyphens)
+    const expertiseMap = {
+      'Tarot': 'tarot',
+      'Lal Kitab': 'lal-kitab',
+      'Palmistry': 'palmistry',
+      'Vedic Astrology': 'vedic-astrology',
+      'Numerology': 'numerology',
+      'Vastu Shastra': 'vastu-shastra',
+      'Face Reading': 'face-reading',
+      'Crystal Healing': 'crystal-healing'
+    };
+
+    const expertise = expertiseMap[basicInfo?.experienceType] || null;
+
+    // Get a random question matching the criteria
+    const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty);
+    setQuestion(selectedQuestion);
+  }, [basicInfo]);
 
   const handleSubmit = async () => {
     if (!userAnswer.trim()) {
@@ -176,21 +202,57 @@ const KnowledgeTest = ({ onComplete, onInputChange, onLoadingStart, onLoadingEnd
               </p>
             </div>
             
-            {/* Language indicator outside scrollable content */}
+            {/* Question metadata outside scrollable content */}
             <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              backgroundColor: '#fef3c7',
-              borderRadius: '20px',
-              fontSize: '14px',
-              color: '#92400e',
-              fontWeight: '500',
+              display: 'flex',
+              gap: '10px',
+              flexWrap: 'wrap',
               marginBottom: '20px'
             }}>
-              <span>🌐</span>
-              <span>Language: {question.language}</span>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: '#fef3c7',
+                borderRadius: '20px',
+                fontSize: '14px',
+                color: '#92400e',
+                fontWeight: '500'
+              }}>
+                <span>🌐</span>
+                <span>Language: {question.language}</span>
+              </div>
+
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: '#dbeafe',
+                borderRadius: '20px',
+                fontSize: '14px',
+                color: '#1e40af',
+                fontWeight: '500'
+              }}>
+                <span>✨</span>
+                <span>{question.expertise?.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
+              </div>
+
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: question.difficulty === 'beginner' ? '#dcfce7' : question.difficulty === 'intermediate' ? '#fef9c3' : '#fecaca',
+                borderRadius: '20px',
+                fontSize: '14px',
+                color: question.difficulty === 'beginner' ? '#166534' : question.difficulty === 'intermediate' ? '#854d0e' : '#991b1b',
+                fontWeight: '500'
+              }}>
+                <span>{question.difficulty === 'beginner' ? '⭐' : question.difficulty === 'intermediate' ? '⭐⭐' : '⭐⭐⭐'}</span>
+                <span>{question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
+              </div>
             </div>
           </div>
 

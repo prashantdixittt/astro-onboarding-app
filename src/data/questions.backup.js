@@ -10,7 +10,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 2,
-    question: "नमस्ते, मैं राहुल हूँ, 22/12/1990 को लखनऊ, उत्तर प्रदेश में सुबह 6:15 बजे पैदा हुआ था। मेरे कार्यजीवन में कब सफलता मिलेगी?",
+    question: "Namaste, main Rahul hun, 22/12/1990 ko Lucknow, UP mein subah 6:15 baje paida hua tha. Mere career mein kab success milegi?",
     correctAnswer: "Aapka janam Capricorn rashi mein hua hai aur 10th house mein Saturn ka strong influence hai. Career mein success 32-35 ki umar ke beech expected hai. Saturn return ke baad (2023-2024) se aapke career mein steady growth dikhega. Blue sapphire stone aur Saturday ko Hanuman Chalisa padhna beneficial rahega. Government sector ya structured jobs mein better prospects hain.",
     language: "hindi",
     expertise: "vedic-astrology",
@@ -26,7 +26,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 4,
-    question: "मैं सुरेश हूँ, 10/01/1988 को पुणे, महाराष्ट्र में रात 11:20 बजे जन्म हुआ। मेरे स्वास्थ्य के बारे में बताइए।",
+    question: "Main Suresh hun, 10/01/1988 ko Pune, Maharashtra mein raat 11:20 baje janam hua. Meri health ke bare mein batayiye.",
     correctAnswer: "Aap Capricorn ascendant hain aur 6th house mein Mars ki presence hai. Health ke liye extra care ki zarurat hai, especially bones aur joints ki. 35 ke baad regular exercise aur yoga zaruri hai. Saturn ki placement digestive issues de sakti hai. Red coral stone beneficial rahega aur Tuesday ko Hanuman ji ki pooja karni chahiye. Turmeric milk daily lena good rahega.",
     language: "hindi",
     expertise: "vedic-astrology",
@@ -74,7 +74,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 10,
-    question: "मैं आकाश हूँ, 30/09/1991 को पटना, बिहार में दोपहर 12:00 बजे पैदा हुआ। क्या मुझे विदेश में बसने के अवसर हैं?",
+    question: "Main Akash hun, 30/09/1991 ko Patna, Bihar mein dopahar 12:00 baje paida hua. Mujhe foreign settlement ke chances hain kya?",
     correctAnswer: "Aapka Libra ascendant hai aur 12th house mein Rahu ki position hai jo foreign settlement ke strong indications dete hain. 2025-2028 ka period foreign opportunities ke liye best hai. IT, technology ya consulting field mein better prospects hain. Blue sapphire stone aur Saturday ko Shani dev ki pooja karein. Visa aur documentation ke liye 2026 favorable rahega.",
     language: "hindi",
     expertise: "vedic-astrology",
@@ -92,7 +92,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 12,
-    question: "मैं पूजा हूं। मैंने अपने प्रेम जीवन के बारे में ‘प्रेमी’, ‘दो प्याले’, और ‘दस सिक्के’ कार्ड निकाले हैं। इसका क्या मतलब है?",
+    question: "मैं पूजा हूं। मैंने अपने प्रेम जीवन के बारे में The Lovers, Two of Cups, और Ten of Pentacles कार्ड निकाले हैं। इसका क्या मतलब है?",
     correctAnswer: "यह बेहद शुभ संयोजन है! The Lovers सच्चे प्यार और सही चुनाव का संकेत देता है। Two of Cups partnership और emotional connection को दर्शाता है। Ten of Pentacles long-term commitment, शादी, और family prosperity का वादा करता है। आपका relationship गहरा और स्थायी होगा। यह समय commitment के लिए perfect है। अगले 3-6 महीनों में important decisions लेने के लिए तैयार रहें।",
     language: "hindi",
     expertise: "tarot",
@@ -100,7 +100,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 13,
-    question: "வணக்கம், நான் மீனா. என் வணிக முயற்சிக்காக ‘வாள்களின் எட்டு’, ‘மாந்திரிகன்’, மற்றும் ‘நாணயங்களின் ஏஸ்’ கார்டுகள் வந்துள்ளன. விளக்கம் தாருங்கள்.",
+    question: "வணக்கம், நான் மீனா. என் வணிக முயற்சிக்காக Eight of Swords, The Magician, மற்றும் Ace of Pentacles cards வந்துள்ளன. விளக்கம் தாருங்கள்.",
     correctAnswer: "Eight of Swords உங்கள் தற்போதைய மன தடைகளையும் பயத்தையும் காட்டுகிறது - நீங்கள் உண்மையில் சிக்கிக்கொள்ளவில்லை, ஆனால் அப்படி உணர்கிறீர்கள். The Magician உங்களிடம் தேவையான அனைத்து திறமைகளும் இருப்பதை உறுதிப்படுத்துகிறது. Ace of Pentacles புதிய நிதி வாய்ப்புகளின் தொடக்கத்தை குறிக்கிறது. உங்கள் சந்தேகங்களை விட்டுவிட்டு முன்னேறுங்கள் - வெற்றி உங்கள் கைகளில் உள்ளது.",
     language: "tamil",
     expertise: "tarot",
@@ -116,7 +116,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 15,
-    question: "నమస్కారం, నేను లక్ష్మి. నా ఆరోగ్యం గురించి ‘శైతాను’, ‘సంయమనం’, మరియు ‘ఖడ్గాల ఆరు’ పత్తాలు వచ్చాయి. దీని అర్థం ఏమిటి?",
+    question: "నమస్కారం, నేను లక్ష్మి. నా ఆరోగ్యం గురించి ద డెవిల్, టెంపరెన్స్, మరియు సిక్స్ ఆఫ్ స్వోర్డ్స్ పత్తాలు వచ్చాయి. దీని అర్థం ఏమిటి?",
     correctAnswer: "ద డెవిల్ పత్త మీ అనారోగ్య అలవాట్లు లేదా బానిసత్వాల వల్ల ఆరోగ్య సమస్యలను సూచిస్తుంది - ఆహారం, జీవనశైలిలో మార్పులు అవసరం. టెంపరెన్స్ సమతుల్యత మరియు నియంత్రణ యొక్క ప్రాముఖ్యతను చెబుతోంది - మితమైన ఆహారం, వ్యాయామం కావాలి. సిక్స్ ఆఫ్ స్వోర్డ్స్ మెరుగైన ఆరోగ్యం వైపు ప్రయాణాన్ని సూచిస్తుంది కానీ క్రమంగా జరిగే ప్రక్రియ. చెడు అలవాట్ల నుండి విముక్తి పొందండి, సమతుల్య విధానం తీసుకోండి, కోలుకోవడానికి ఓర్పు ఉంచండి.",
     language: "telugu",
     expertise: "tarot",
@@ -124,7 +124,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 16,
-    question: "नमस्कार, मी संजय. मी माझ्या आर्थिक परिस्थितीबद्दल ‘पेंटाकल्सचा पाच’, ‘भाग्याचे चक्र’, आणि ‘सम्राट’ काढले आहेत. हे काय दर्शवितात?",
+    question: "नमस्कार, मी संजय. मी माझ्या आर्थिक परिस्थितीबद्दल Five of Pentacles, Wheel of Fortune, आणि The Emperor काढले आहेत. हे काय दर्शवितात?",
     correctAnswer: "Five of Pentacles सध्याच्या आर्थिक संकटांचे प्रतिनिधित्व करतो पण मदत जवळच आहे हे देखील सूचित करतो. Wheel of Fortune भाग्य बदलण्याची तयारी दर्शवितो - नशीब फिरणार आहे. The Emperor structure, नियोजन आणि अधिकार दर्शवितो. तुमच्या आर्थिक समस्यांचे निराकरण लवकरच होईल. Disciplined approach घ्या, budget बनवा, आणि authority figures कडून मदत घ्या. 3-4 महिन्यांत सुधारणा दिसेल.",
     language: "marathi",
     expertise: "tarot",
@@ -140,7 +140,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 18,
-    question: "मैं अर्जुन हूँ। मेरे पारिवारिक विवाद के लिए मैंने ‘तलवारों का तीन’, ‘प्यालों का पाँच’, और ‘प्यालों का छह’ कार्ड निकाले। क्या समाधान है?",
+    question: "Main Arjun hun. Mere family conflict ke liye maine Three of Swords, Five of Cups, aur Six of Cups cards nikale. Kya solution hai?",
     correctAnswer: "Three of Swords heartbreak aur painful truth ko dikhata hai - family mein koi deep hurt hua hai. Five of Cups loss aur grief pe focus hai but do cups khade hain matlab hope hai. Six of Cups past memories, nostalgia aur healing through forgiveness dikhata hai. Solution: purani khushi ki yaadein yaad karein, jo kho gaya usse zyada jo bacha hai uspe dhyan dein. Forgiveness ki power use karein. Past ke achhe dinon ko yaad karke relationships rebuild kar sakte hain.",
     language: "hindi",
     expertise: "tarot",
@@ -148,7 +148,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 19,
-    question: "வணக்கம், நான் ரங்கநாதன். என் திருமண வாழ்க்கைக்கு ‘வாள்களின் நான்கு’, ‘கோப்பைகளின் நைட்’, மற்றும் ‘சூரியன்’ வந்தது. என்ன அர்த்தம்?",
+    question: "வணக்கம், நான் ரங்கநாதன். என் திருமண வாழ்க்கைக்கு Four of Swords, Knight of Cups, மற்றும் The Sun வந்தது. என்ன அர்த்தம்?",
     correctAnswer: "Four of Swords ஓய்வு மற்றும் healing தேவைப்படுவதை காட்டுகிறது - உறவில் tension இருக்கிறது, break எடுக்க வேண்டும். Knight of Cups romantic gestures மற்றும் emotional connection ஐ புதுப்பிக்க வருகிறார் - யாரோ ஒருவர் முயற்சி செய்வார். The Sun மகிழ்ச்சி, clarity மற்றும் வெற்றியை உறுதிப்படுத்துகிறது. தற்போதைய stress க்குப் பிறகு, romantic reconnection நடக்கும். Space கொடுங்கள், பின்னர் love வெளிப்படுத்துங்கள் - உறவு பிரகாசமாக மாறும்.",
     language: "tamil",
     expertise: "tarot",
@@ -190,7 +190,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 24,
-    question: "నమస్కారం, నా పేరు లక్ష్మి దేవి, పుట్టిన తేది 07/12/1992. నా పెళ్లి అనుకూలత కోసం నా భర్త రవి కుమార్ (18/05/1990) తో సంఖ్యలు సరిపోతాయా?",
+    question: "నమస్కారం, నా పేరు లక్ష్మి దేవి, పుట్టిన తేది 07/12/1992. నా marriage compatibility కోసం నా భర్త రవి కుమార్ (18/05/1990) తో numbers match అవుతాయా?",
     correctAnswer: "లక్ష్మి దేవి: Life path 3 (7+1+2+1+9+9+2=31, 3+1=4)... correction: 7+1+2+1+9+9+2=31=3+1=4. రవి కుమార్: Life path 6 (1+8+5+1+9+9+0=33, 3+3=6). Number 4 and 6 compatibility చాలా మంచిది! 6 family-oriented మరియు nurturing, 4 stable మరియు dependable. ఇది harmonious match. మీ destiny numbers complement అవుతాయి. Minor challenge: 4 sometimes too practical, 6 emotional. Communication key. Overall compatibility: 8/10. Marriage prospects excellent.",
     language: "telugu",
     expertise: "numerology",
@@ -198,7 +198,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 25,
-    question: "नमस्कार, माझे नाव संदीप पाटील, जन्म 25/09/1987. माझा मोबाईल क्रमांक 9823456789 आहे. हा क्रमांक माझ्यासाठी चांगला आहे का?",
+    question: "नमस्कार, माझे नाव संदीप पाटील, जन्म 25/09/1987. माझा mobile number 9823456789 आहे. हा number माझ्यासाठी चांगला आहे का?",
     correctAnswer: "तुमचा life path number 5 आहे (2+5+0+9+1+9+8+7=41, 4+1=5). Mobile number 9823456789 ची total: 9+8+2+3+4+5+6+7+8+9=61, 6+1=7. Number 7 spirituality, wisdom आणि introspection दर्शवितो. Number 5 personality (communication, travel, freedom) साठी number 7 phone mixed results देतो. तुमच्यासाठी number 5 किंवा 9 energy वाला mobile number better आहे. Ending digits 5, 14, 23, 32, 41, 50 किंवा 9, 18, 27, 36, 45, 54 असलेले numbers try करा.",
     language: "marathi",
     expertise: "numerology",
@@ -214,7 +214,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 27,
-    question: "मैं अनीता गुप्ता हूँ, 30/06/1993 को पैदा हुई। मेरा भाग्यशाली अंक क्या है और इसे कैसे उपयोग करूँ?",
+    question: "Main Anita Gupta hun, 30/06/1993 ko paidi hui. Mera lucky number kya hai aur kaise use karun?",
     correctAnswer: "Aapka life path number 4 hai (3+0+0+6+1+9+9+3=31, 3+1=4). Lucky numbers calculate karne ke liye: Birth date 30=3, birth month 6, life path 4. Aapke main lucky numbers hain: 3, 4, 6, aur 13, 22, 31. Use kaise karein: Important decisions in dates with these numbers lein (3rd, 4th, 6th, 13th, 22nd, 31st). Vehicle number, house number mein ye numbers choose karein. Bank accounts, PIN codes mein include karein. Avoid number 8 aur 9. Sunday aur Wednesday lucky days hain.",
     language: "hindi",
     expertise: "numerology",
@@ -222,7 +222,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 28,
-    question: "வணக்கம், நான் சுரேஷ், பிறப்பு 14/07/1991. என் பெயரை நான் SURESH இலிருந்து SUREESH ஆக மாற்ற வேண்டுமா? எந்த எழுத்துமுறை சிறந்தது?",
+    question: "வணக்கம், நான் சுரேஷ், பிறப்பு 14/07/1991. என் பெயரை நான் SURESH இலிருந்து SUREESH க்கு மாற்ற வேண்டுமா? எந்த spelling சிறந்தது?",
     correctAnswer: "உங்கள் life path 5 (1+4+7+1+9+9+1=32, 3+2=5). SURESH numerology value: S(3)+U(6)+R(2)+E(5)+S(3)+H(5)=24=2+4=6. SUREESH value: S(3)+U(6)+R(2)+E(5)+E(5)+S(3)+H(5)=29=2+9=11 (Master Number!). Life path 5 க்கு expression number 11 மிகவும் powerful combination. SUREESH spelling உங்கள் spiritual awareness, intuition மற்றும் leadership qualities அதிகரிக்கும். பெயர் மாற்றம் beneficial. Master Number 11 success, fame மற்றும் recognition கொண்டுவரும். மாற்றவும்!",
     language: "tamil",
     expertise: "numerology",
@@ -238,7 +238,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 30,
-    question: "నమస్కారం, నేను రాజేష్, 13/04/1989 పుట్టాను. నా ఇంటి సంఖ్య 404. ఇది మంచిదా? మార్చాలా?",
+    question: "నమస్కారం, నేను రాజేష్, 13/04/1989 పుట్టాను. నా ఇంటి number 404. ఇది మంచిదా? మార్చాలా?",
     correctAnswer: "మీ life path 8 (1+3+4+1+9+8+9=35, 3+5=8). House number 404: 4+0+4=8. ఇది మీ life path తో perfect match! Number 8 wealth, success, material abundance సూచిస్తుంది. Number 4 stability మరియు strong foundation. ఈ combination excellent - house మార్చవద్దు! 8 energy financial prosperity, authority కొరకు ideal. Number 8 houses business people, ambitious individuals కి perfect. కొన్ని challenges: sometimes too materialistic focus, work-life balance maintain చేయండి. Overall, ఈ house number మీకు highly beneficial. Keep it!",
     language: "telugu",
     expertise: "numerology",
@@ -256,7 +256,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 32,
-    question: "मैं रोहन हूं। मेरे घर में शयनकक्ष दक्षिण-पश्चिम में है और मैं अच्छी नींद नहीं ले पा रहा। क्या वास्तु इससे संबंधित हो सकता है?",
+    question: "मैं रोहन हूं। मेरे घर में बेडरूम Southwest में है और मैं अच्छी नींद नहीं ले पा रहा। क्या Vastu इससे related हो सकता है?",
     correctAnswer: "Southwest bedroom Vastu में acceptable है लेकिन bed placement crucial है। Problems की main reasons: 1) Bed का headboard South या West दिशा में होना चाहिए, North/East नहीं। 2) Mirror bed के सामने ना हो। 3) Beam ceiling में bed के ऊपर ना हो। 4) Electronic devices (TV, phone chargers) कम से कम रखें। Remedies: Headboard को South direction में रखें, room में soothing colors (light blue, green) use करें, lavender plant रखें, sea salt के bowl रखें negative energy remove करने के लिए। ये changes improve करेंगे sleep quality।",
     language: "hindi",
     expertise: "vastu-shastra",
@@ -264,7 +264,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 33,
-    question: "வணக்கம், என் அலுவலகம் தென் திசை நோக்கி உள்ளது. என் வணிகம் நன்றாக போகவில்லை. வாஸ்து தீர்வு என்ன?",
+    question: "வணக்கம், என் அலுவலகம் South facing. என் வணிகம் நன்றாக போகவில்லை. Vastu தீர்வு என்ன?",
     correctAnswer: "South facing office challenging ஆனால் rectify செய்யலாம். Main issues: South direction Yama (death god) ruled, financial flow blocked ஆகலாம். Remedies: 1) Reception/entrance area-வை bright மற்றும் welcoming ஆக வைக்கவும். 2) Owner/manager seat North or East facing, back to South wall. 3) Cash counter Southeast corner-ல் (fire element). 4) Red coral gemstone அணியவும். 5) Entrance-ல் brass Ganesha vigraham வைக்கவும். 6) Green plants Northeast corner. 7) South wall-ல் Hanuman photo வைக்கலாம். இவை negative effects neutralize செய்யும்.",
     language: "tamil",
     expertise: "vastu-shastra",
@@ -272,7 +272,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 34,
-    question: "నమస్కారం, నా వంటగది ఈశాన్యంలో ఉంది. ప్రతి ఒక్కరూ ఇది చెడ్డదని చెబుతున్నారు. ఇప్పుడు నేను ఏమి చేయాలి?",
+    question: "నమస్కారం, నా కిచెన్ Northeast లో ఉంది. ప్రతి ఒక్కరూ ఇది చెడ్డదని చెబుతున్నారు. ఇప్పుడు నేను ఏం చేయాలి?",
     correctAnswer: "Northeast kitchen Vastu ప్రకారం most inauspicious - ఇది sacred Ishan corner (water element + spiritual energy). Kitchen అగ్ని element, clash అవుతుంది. Complete relocation ideal కానీ expensive. Immediate remedies: 1) Cooking stove ని Southeast corner of kitchen లో shift చేయండి. 2) Cooking చేసేటప్పుడు East facing చూడండి. 3) Kitchen entrance door ఎప్పుడూ closed ఉంచండి. 4) Crystal pyramid Northeast corner లో పెట్టండి. 5) Water purifier/sink Northwest లో వుంచండి. 6) Yellow color accessories use చేయండి. Long term: kitchen relocation plan చేయండి Southeast or Northwest కి.",
     language: "telugu",
     expertise: "vastu-shastra",
@@ -280,8 +280,8 @@ export const knowledgeQuestions = [
   },
   {
     id: 35,
-    question: "नमस्कार, माझ्या घरात सतत भांडणे होतात. वास्तु दोष असू शकतो का? आम्ही सदनिकेत राहतो.",
-    correctAnswer: "होय, Vastu दोष family conflicts वाढवू शकतो. Common issues apartment मध्ये: 1) Southwest मध्ये toilet - relationship problems. 2) Northeast मध्ये heavy items - mental stress. 3) Center (Brahmasthan) मध्ये staircase/toilet - overall negativity. 4) Mirrors facing bed - conflicts. Remedies without reconstruction: 1) Sea salt bowl घराच्या corners मध्ये ठेवा (monthly change). 2) Southeast corner मध्ये pyramid. 3) Pairs of items ठेवा - ducks, birds (हarmony साठी). 4) Bedroom मध्ये rose quartz. 5) Fresh flowers regularly. 6) Clutter remove करा especially Northeast. हे simple remedies peace restore करतील.",
+    question: "नमस्कार, माझ्या घरात सतत भांडणे होतात. Vastu दोष असू शकतो का? आम्ही अपार्टमेंटमध्ये राहतो.",
+    correctAnswer: "होय, Vastu दोष family conflicts वाढवू शकतो. Common issues apartment मध्ये: 1) Southwest मध्ये toilet - relationship problems. 2) Northeast मध्ये heavy items - mental stress. 3) Center (Brahmasthan) मध्ये staircase/toilet - overall negativity. 4) Mirrors facing bed - conflicts. Remedies without reconstruction: 1) Sea salt bowl घराच्या corners मध्ये ठेवा (monthly change). 2) Southeast corner मध्ये pyramid. 3) Pairs of items ठेवा - ducks, birds (harmony साठी). 4) Bedroom मध्ये rose quartz. 5) Fresh flowers regularly. 6) Clutter remove करा especially Northeast. हे simple remedies peace restore करतील.",
     language: "marathi",
     expertise: "vastu-shastra",
     difficulty: "intermediate"
@@ -296,7 +296,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 37,
-    question: "मैं किरण हूँ। मेरी दफ़्तर की मेज़ पर सफलता के लिए वास्तु के अनुसार क्या रखना चाहिए?",
+    question: "Main Kiran hun. Mere office desk pe kya rakhna chahiye Vastu ke according success ke liye?",
     correctAnswer: "Office desk Vastu bahut important hai career success ke liye! Placement: 1) Desk North or East facing ideal. 2) Solid wall behind (support). 3) Never back to door/window. Desk items: 1) Computer/laptop Southeast corner (fire/energy). 2) Phone Southwest corner (stability). 3) Files/documents Southwest (earth element). 4) Crystal globe Northeast (growth). 5) Fresh flower vase East (positivity). 6) Green plant Northwest (wealth flow). 7) Nameplates/awards South wall. Avoid: Cactus, broken items, clutter. Colors: Light green, white, yellow. Keep center of desk clean. Regular cleaning essential. In remedies ke saath career growth hoga.",
     language: "hindi",
     expertise: "vastu-shastra",
@@ -304,7 +304,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 38,
-    question: "வணக்கம், என் குழந்தைகள் படிப்பில் கவனம் செலுத்தவில்லை. அவர்களது படிப்பறை எந்த திசையில் இருக்க வேண்டும்?",
+    question: "வணக்கம், என் குழந்தைகள் படிப்பில் கவனம் செலுத்தவில்லை. அவர்களது study room எந்த திசையில் இருக்க வேண்டும்?",
     correctAnswer: "Children study room direction மிக முக்கியம். Best directions: 1) West or Northwest - concentration மற்றும் memory power. 2) East - புதிய knowledge acquisition. 3) Northeast - spiritual learning, creativity. Avoid: Southeast (agitation), Southwest (lethargy). Study table placement: East or North facing padikum podhu. Solid wall மேற்கு அல்லது தெற்கில் back support க்கு. Study table-ல்: lamp Southeast corner, books Southwest, fresh flower East. Colors: Light green, yellow, cream - concentration க்கு. Avoid: TV, bed study area-வில் (separate படுக்கை). Lord Ganesha photo Northeast corner. இவை follow செய்தால் concentration improve ஆகும்.",
     language: "tamil",
     expertise: "vastu-shastra",
@@ -320,7 +320,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 40,
-    question: "నమస్కారం, మా ఇంట్లో ఎప్పుడూ అనారోగ్యం ఉంటుంది. వాస్తు పరిహారాలు చెప్పండి.",
+    question: "నమస్కారం, మా house-లో ఎప్పుడూ అనారోగ్యం వుంటుంది. Vastu remedies చెప్పండి.",
     correctAnswer: "Continuous health issues Vastu doshas వల్ల అవుతాయి. Check చేయవలసినవి: 1) Northeast toilet/kitchen - major dosha, crystal pyramid పెట్టండి. 2) Southwest లో water body - illness, fill చేయండి or salt bowl పెట్టండి. 3) Center (Brahmasthan) blocked - open space ఉంచండి. 4) Bedroom mirror bed opposite - cover చేయండి night time. Health remedies: 1) Northeast corner clean, light, plants. 2) Copper water vessels use చేయండి. 3) Tulsi plant Northeast. 4) White/light green colors bedroom లో. 5) Vastu pyramid center of house. 6) Himalayan salt lamps. 7) Sunday morning East facing sun rays. ఈ remedies health improve చేస్తాయి.",
     language: "telugu",
     expertise: "vastu-shastra",
@@ -338,7 +338,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 42,
-    question: "मैं विकास हूं। मेरी हथेली में दो विवाह रेखाएँ हैं। क्या मेरी दो बार शादी होगी?",
+    question: "मैं विकास हूं। मेरी हथेली में दो marriage lines हैं। क्या मेरी दो बार शादी होगी?",
     correctAnswer: "नहीं, यह common misconception है! Multiple marriage lines का मतलब multiple marriages नहीं होता। Real meanings: 1) दो strong marriage lines = दो significant relationships (one may be before marriage, one after). 2) Lines की depth और clarity ज्यादा important है - deeper line actual marriage दिखाता है। 3) Faint lines = romantic attractions, not marriages। 4) दो lines equal depth में = strong partnership with deep understanding (soul mate connection)। Analysis: Lines की position check करें - higher towards little finger = later marriage। Lines पर islands/breaks देखें - obstacles। Overall, दो lines usually indicate fortunate love life with significant relationships, not necessarily two marriages। Life choices आपके हाथ में हैं।",
     language: "hindi",
     expertise: "palmistry",
@@ -346,7 +346,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 43,
-    question: "வணக்கம், என் கைரேகையில் விதி கோடு இல்லை. இது கெட்டதா? என் வாழ்க்கை direction இல்லாமல் இருக்குமா?",
+    question: "வணக்கம், என் கைரேகையில் fate line இல்லை. இது கெட்டதா? என் வாழ்க்கை direction இல்லாமல் இருக்குமா?",
     correctAnswer: "இல்லை, இது கெட்ட அறிகுறி அல்ல! Fate line இல்லாதது: 1) நீங்கள் free spirit - others' expectations-ஐ follow செய்ய மாட்டீர்கள். 2) Independent thinker - own path உருவாக்குவீர்கள். 3) Multiple careers/interests - ஒரே வழியில் settle ஆகமாட்டீர்கள். 4) Self-made success - family business அல்ல, நீங்களே வெற்றி பெறுவீர்கள். Famous people பலருக்கு fate line இல்லை! இது direction இல்லாதது அல்ல - conventional path இல்லாதது. நீங்கள் entrepreneur, creative professional, freelancer ஆக excel செய்வீர்கள். Life's direction உங்கள் choices-ஐ பொறுத்தது, lines அல்ல. Positive sign of freedom!",
     language: "tamil",
     expertise: "palmistry",
@@ -354,7 +354,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 44,
-    question: "నమస్కారం, నా కుడి చేతిలో సూర్య రేఖ (అపోలో రేఖ) చాలా స్పష్టంగా ఉంది. దీని అర్థం ఏమిటి?",
+    question: "నమస్కారం, నా కుడి చేతిలో sun line (Apollo line) చాలా clear గా ఉంది. దీని అర్థం ఏమిటి?",
     correctAnswer: "Clear sun line చాలా auspicious! Sun line (Apollo line) fame, success, creativity మరియు recognition సూచిస్తుంది. మీ reading: 1) Clear sun line = natural talents, charisma, అవి బాగా express అవుతాయి. 2) Public recognition మరియు appreciation రాబోతుంది. 3) Creative fields (arts, media, entertainment, entrepreneurship) లో success. 4) Financial prosperity fame ద్వారా. 5) Lucky nature - right opportunities వస్తాయి. If line reaches Apollo finger: great success. If starting from heart line: అర్ధ వయస్సు తర్వాత recognition. If starting from head line: talent and hard work వల్ల fame. Absence of breaks: steady success. మీ talents ని pursue చేయండి confidently - success assured!",
     language: "telugu",
     expertise: "palmistry",
@@ -362,7 +362,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 45,
-    question: "नमस्कार, माझ्या हातावर मोठा तारा आहे गुरु पर्वतावर. हे काय दर्शवते?",
+    question: "नमस्कार, माझ्या हातावर मोठा star आहे Jupiter mount वर. हे काय दर्शवते?",
     correctAnswer: "Jupiter mount वर star अत्यंत शुभ चिन्ह आहे! हे success, fame आणि leadership दर्शवते। तुमचे reading: 1) Star on Jupiter = unexpected success आणि recognition मिळेल। 2) Leadership qualities प्रबळ आहेत - लोक तुमचं अनुसरण करतील। 3) आध्यात्मिक किंवा बौद्धिक क्षेत्रात प्रसिद्धी। 4) Positive attitude आणि optimistic nature। 5) Teachers, mentors, guides म्हणून यशस्वी। 6) सामाजिक प्रतिष्ठा आणि सन्मान। Timing: जर तुमचे वय 30 वर्षांपेक्षा कमी आहे तर career च्या mid-stage मध्ये major breakthrough। Jupiter finger लांब असेल तर effect अधिक। सार: तुम्ही born leader आहात - तुमच्या क्षमतेवर विश्वास ठेवा!",
     language: "marathi",
     expertise: "palmistry",
@@ -386,7 +386,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 48,
-    question: "வணக்கம், என் தலை கோட்டில் நடுவில் ஒரு ‘தீவு’ உள்ளது. இது என்ன பிரச்சனையை குறிக்கிறது?",
+    question: "வணக்கம், என் head line-ல் இடையில் ஒரு island உள்ளது. இது என்ன பிரச்சனையை குறிக்கிறது?",
     correctAnswer: "Head line-ல் island mental stress, concentration problems அல்லது difficult period-ஐ குறிக்கிறது। Island இன் position முக்கியம்: 1) Starting point அருகில்: childhood trauma or learning difficulties. 2) Middle: career/life மாற்றத்தால் stress (30-40 age). 3) End பகுதி: later life mental concerns. Island size: பெரிய island = serious issue, சிறிய island = temporary problem. Remedies: 1) Meditation மற்றும் yoga - mental clarity க்கு. 2) Career மாற்றம் consider செய்யுங்கள் if work related. 3) Professional help - therapist or counselor. 4) Gemstones: emerald for Mercury (mental clarity). Good news: island temporary phase-ஐ மட்டுமே indicate செய்கிறது, permanent அல்ல. Life style changes-ஆல் overcome செய்யலாம்.",
     language: "tamil",
     expertise: "palmistry",
@@ -402,7 +402,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 50,
-    question: "నమస్కారం, నా రెండు చేతుల్లోను రేఖలు చాలావరకు భిన్నంగా ఉన్నాయి. ఏది చూడాలి? ఏది సరైంది?",
+    question: "నమస్కారం, నా రెండు చేతుల్లోను lines చాలా different. ఏది చూడాలి? ఏది correct?",
     correctAnswer: "రెండు చేతులు చూడటం important - both చెబుతాయి different stories! Palmistry rule: 1) Dominant hand (మీరు write చేసే hand): present life, current situation, నీవు ఏం చేస్తున్నావు. 2) Non-dominant hand: past, inherited traits, potential, నీవు ఏం తో పుట్టావు. రెండింటి comparison: మీ progress మరియు life changes చూపిస్తుంది. Different lines meaning: మీరు మీ destiny ని change చేస్తున్నారు through actions! Example: non-dominant లో short career line but dominant లో long = మీరు hard work ద్వారా career improve చేశారు. Both hands చూడండి complete picture కోసం. Major decisions కోసం dominant hand important. నీ current actions నీ future shape చేస్తాయి - lines fixed కాదు!",
     language: "telugu",
     expertise: "palmistry",
@@ -420,7 +420,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 52,
-    question: "मैं सोनल हूं। मेरी कुंडली में मंगल नीच का है। लाल किताब के अनुसार मुझे क्या करना चाहिए?",
+    question: "मैं सोनल हूं। मेरी कुंडली में Mars debilitated है। Lal Kitab के अनुसार मुझे क्या करना चाहिए?",
     correctAnswer: "Debilitated Mars (Cancer में) Lal Kitab में serious concern है - courage, energy aur siblings relations affect होते हैं। Remedies: 1) मंगलवार को Hanuman Ji की पूजा - लाल फूल, चोला चढ़ाएं। 2) लाल मसूर की दाल भिगोकर पक्षियों को खिलाएं। 3) घर में लाल रंग के items रखें - लाल दरी, तौलिया, पर्दे। 4) गुड़ पानी में डालकर नियमित पीएं। 5) भाई-बहनों से रिश्ते सुधारें - उनकी मदद करें। 6) मीठे में खाली हाथ कभी न रहें - कुछ न कुछ खाएं। 7) हथियार, sharp objects संभालकर रखें। 8) अपनी मां की सेवा करें। 9) कॉपर का बर्तन use करें पानी के लिए। 40 दिन continuous करें।",
     language: "hindi",
     expertise: "lal-kitab",
@@ -428,7 +428,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 53,
-    question: "வணக்கம், என் கணவருக்கு வேலை நிலைத்தன்மை இல்லை. அடிக்கடி மாறுகிறது. லால்கிதாப் उपायம் என்ன?",
+    question: "வணக்கம், என் கணவருக்கு job stability இல்லை. அடிக்கடி மாறுகிறது. Lal Kitab remedy என்ன?",
     correctAnswer: "Job instability Mercury அல்லது Saturn problems-ஆல் வரலாம். Lal Kitab remedies: 1) புதன்கிழமை Durga temple-ல் பச்சை துணியில் மூங்தாள் கட்டி சாமி படியில் வைக்கவும். 2) தினமும் காகத்திற்கு முதல் roti பகுதி கொடுக்கவும் (Saturn)। 3) சனிக்கிழமை mustard oil brass lamp-ல் ஏற்றி Peepal tree-இன் கீழ் வையுங்கள்। 4) எப்போதும் pocket-ல் சிறிய silver piece வைத்திருக்கவும்। 5) House-ல் northeast corner-ல் தண்ணீர் பாத்திரம் வையுங்கள்। 6) கணவர் workplace-க்கு செல்லும்போது தயிர் சாப்பிட கொடுங்கள்। 7) மாதம் ஒருமுறை दरिद्रों க்கு food donate செய்யுங்கள். 43 நாட்கள் follow செய்யவும்.",
     language: "tamil",
     expertise: "lal-kitab",
@@ -436,7 +436,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 54,
-    question: "నమస్కారం, నా కుమార్తెకు వివాహ ప్రతిపాదనలు రావడం లేదు. లాల్ కితాబ్ ప్రకారం పరిహారం ఏమిటి?",
+    question: "నమస్కారం, నా కుమార్తె wedding proposals రావడం లేదు. Lal Kitab ప్రకారం remedy ఏమిటి?",
     correctAnswer: "Marriage delays Venus, Jupiter, Moon లేదా 7th house issues వల్ల. Lal Kitab powerful remedies: 1) శుక్రవారం white flowers Goddess Lakshmi కి అర్పించండి - especially lotus. 2) మీ daughter ప్రతి శుక్రవారం white dress wear చేయండి. 3) గురువారం yellow clothes మరియు haldi donate చేయండి temples లో. 4) ఇంట్లో northeast corner clean మరియు bright ఉంచండి - fresh flowers వేయండి. 5) Full moon day water లో rice grains వేసి flowing water లో వదలండి। 6) శుక్రవారం young girls కి bangles లేదా sweets donate చేయండి। 7) Daughter ear rings definitely wear చేయించండి (Venus remedy). 8) మీరు white cow కి green grass ఇవ్వండి regularly. 27 దినాలు consistency important.",
     language: "telugu",
     expertise: "lal-kitab",
@@ -444,7 +444,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 55,
-    question: "नमस्कार, माझ्या मुलाला शिक्षणात एकाग्रता नाही आणि निकाल चांगले येत नाहीत। लाल किताब उपाय सांगा।",
+    question: "नमस्कार, माझ्या मुलाला शिक्षणात focus नाही आणि result चांगले येत नाहीत। Lal Kitab उपाय सांगा।",
     correctAnswer: "शिक्षणात problems Mercury, Jupiter किंवा Moon च्या कमजोरीमुळे होतात। Lal Kitab remedies मुलांसाठी: 1) मुलाला दररोज सकाळी तांब्याच्या भांड्यातील पाणी प्यायला द्या (brain power). 2) बुधवारी हिरव्या रंगाचे कपडे घाला. 3) मुलाच्या study table वर Saraswati Maa चे photo ठेवा आणि दररोज प्रार्थना करा. 4) गुरुवारी केळे किंवा पिवळ्या रंगाचे फळ गरीब मुलांना द्या. 5) घरात ईशान कोनात तुळशीचे रोप लावा. 6) मुलाला नेहमी पिवळा धागा right hand वर बांधा. 7) शाळेला जाताना curd खाऊ घाला. 8) चांदीची अंगठी student ला घालायला द्या. 40 दिवस करा नियमित.",
     language: "marathi",
     expertise: "lal-kitab",
@@ -468,7 +468,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 58,
-    question: "வணக்கம், என் தொழில் முன்னேற்றம் இல்லை, எப்போதும் ஒரே நிலையில் இருக்கிறேன். தொழில் வளர்ச்சிக்கான லால் किताब उपायம்?",
+    question: "வணக்கம், என் தொழில் வளர்ச்சி இல்லை, எப்போதும் ஒரே நிலையில் இருக்கிறேன். Career growth க்கு Lal Kitab remedy?",
     correctAnswer: "Career stagnation Saturn, Sun, அல்லது 10th house problems. Lal Kitab business/career growth remedies: 1) ஞாயிற்றுக்கிழமை சூரிய உதயத்தில் செம்பு பாத்திரத்தில் தண்ணீர் சூரியனுக்கு அர்ப்பணம் - மஞ்சள், சர்க்கரை கலந்து। 2) Working days-ல் கருப்பு அல்லது blue dress wear செய்யுங்கள் (Saturn blessings). 3) சனிக்கிழமை iron items poor people-க்கு donate செய்யுங்கள். 4) Office-ல் அல்லது workplace-ல் copper pyramid வைக்கவும். 5) தினமும் காகத்திற்கு உணவு கொடுங்கள். 6) Your father-க்கு regular ஆக serve செய்யுங்கள், gifts கொடுங்கள் (Sun). 7) உங்கள் seniors/boss-ஐ respect செய்யுங்கள், அவர்கள் blessings எடுங்கள். 8) செவ்வாய்கிழமை Hanuman temple-க்கு visit. 43 நாட்கள் dedication தேவை.",
     language: "tamil",
     expertise: "lal-kitab",
@@ -484,7 +484,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 60,
-    question: "నమస్కారం, నాకు దీర్ఘకాలిక ఆరోగ్య సమస్యలు ఎక్కువగా వస్తున్నాయి. డాక్టర్లు చెప్పేది చేసినా పూర్తిగా తగ్గడం లేదు. లాల్కితాబ్ పరిహారం?",
+    question: "నమస్కారం, నాకు health issues ఎక్కువగా వస్తున్నాయి. డాక్టర్లు చెప్పేది చేసినా పూర్తిగా తగ్గడం లేదు. Lal Kitab remedy?",
     correctAnswer: "Chronic health issues Moon, Saturn, లేదా 6th house afflictions సూచిస్తాయి. Lal Kitab health remedies: 1) పౌర్ణమి రోజు milk and rice flowing water లో వదలండి (Moon remedy). 2) Monday ఉపవాసం - only fruits and milk. 3) తాంబా vessel లో రాత్రి water ఉంచి morning దాన్ని త్రాగండి. 4) Green vegetables grow చేయండి home garden లో possible అయితే. 5) శనివారం iron articles poor-కి donate (Saturn health improvement). 6) Peepal tree కి water ఇవ్వండి regularly, especially Saturdays. 7) మీ mother కి serve చేయండి, respect ఇవ్వండి. 8) దిన్నెలు బయట birds కోసం ఉంచండి. 9) Tulsi leaves తినండి daily morning. Alongside medical treatment ఈ remedies చేయండి - 48 days.",
     language: "telugu",
     expertise: "lal-kitab",
@@ -502,7 +502,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 62,
-    question: "मैं अंकिता हूं। मेरे चेहरे पर तिल दाहिने गाल पर है। समुद्रिका शास्त्र के अनुसार इसका क्या अर्थ है?",
+    question: "मैं अंकिता हूं। मेरे चेहरे पर तिल (mole) दाहिने गाल पर है। Face reading के अनुसार इसका क्या अर्थ है?",
     correctAnswer: "Face reading में moles बहुत significant हैं। दाहिने गाल पर तिल: 1) Social success और popularity का संकेत। 2) अच्छा communication skills - लोग आपकी बात सुनते हैं। 3) Marriage और relationships में खुशहाली। 4) मध्य आयु में धन लाभ। 5) Charming personality। Position important है: ऊपरी गाल = early success, निचला गाल = later life prosperity। Large mole = stronger effect। Dark mole = more powerful results। अगर raised mole है तो और भी शुभ। Career suggestions: public relations, sales, counseling, entertainment - कोई भी क्षेत्र जहां लोगों से interaction हो। आपकी social charm आपकी सबसे बड़ी ताकत है। Right cheek mole overall बहुत auspicious है!",
     language: "hindi",
     expertise: "face-reading",
@@ -518,7 +518,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 64,
-    question: "నమస్కారం, నా ముక్కు చాలా ప్రముఖంగా ఉంది మరియు ఎత్తైన నాసికాపట్టు ఉంది। ముఖరేఖల ప్రకారం దీని అర్థం ఏమిటి?",
+    question: "నమస్కారం, నా ముక్కు చాలా prominent మరియు high bridge ఉంది। Face reading ప్రకారం దీని అర్థం ఏమిటి?",
     correctAnswer: "High nose bridge face reading లో very significant! ఇది indicate చేస్తుంది: 1) Strong willpower మరియు determination - మీరు give up చేయరు easily. 2) Self-confidence మరియు pride (positive sense). 3) Leadership qualities మరియు authoritative nature. 4) Good decision-making abilities. 5) Financial success potential - especially middle age తర్వాత. 6) Independent thinker - others' opinions ని easily follow చేయరు. 7) Noble character మరియు integrity. High bridge specifically: అధిక self-respect, ambitious goals. Prominent nose tip: wealth accumulation. Career suggestions: entrepreneurship, management, politics, law. Challenges: sometimes too stubborn or prideful. Balance important. Overall, high nose bridge leadership మరియు prosperity సూచిస్తుంది - very auspicious!",
     language: "telugu",
     expertise: "face-reading",
@@ -542,15 +542,15 @@ export const knowledgeQuestions = [
   },
   {
     id: 67,
-    question: "मैं प्रिया हूँ। मेरे होंठ काफ़ी भरे-पूरे और उभरे हुए हैं। समुद्रिका शास्त्र में इसका क्या मतलब है?",
-    correctAnswer: "Full lips face reading mein bahut positive sign hain! Personality traits: 1) Warm aur expressive nature - emotions easily express karti hain। 2) Generous aur giving personality - dusron ki help karti hain। 3) Sensual aur passionate - life ko fully experience karti hain। 4) Good communicator - convincing speaker। 5) Emotional intelligence high - dusron ki feelings samajhti hain। Upper lip fuller: giving nature, nurturing। Lower lip fuller: receiving nature, self-love। Both equal: balanced personality। Full lips wali women: attractiveness, popularity, artistic talents। Career suggestions: counseling, sales, public speaking, arts, hospitality। Relationships mein: loving partner, लेकिन sometimes too emotional। Financial aspect: generally comfortable life, luck in partnerships। Overall, full lips blessing hain - warmth aur charm se bhरा personality!",
+    question: "Main Priya hun. Mere lips kaafi full aur prominents hain. Face reading mein iska kya matlab hai?",
+    correctAnswer: "Full lips face reading mein bahut positive sign hain! Personality traits: 1) Warm aur expressive nature - emotions easily express karti hain। 2) Generous aur giving personality - dusron ki help karti hain। 3) Sensual aur passionate - life ko fully experience karti hain। 4) Good communicator - convincing speaker। 5) Emotional intelligence high - dusron ki feelings samajhti hain। Upper lip fuller: giving nature, nurturing। Lower lip fuller: receiving nature, self-love। Both equal: balanced personality। Full lips wali women: attractiveness, popularity, artistic talents। Career suggestions: counseling, sales, public speaking, arts, hospitality। Relationships mein: loving partner, लेकिन sometimes too emotional। Financial aspect: generally comfortable life, luck in partnerships। Overall, full lips blessing hain - warmth aur charm se bhara personality!",
     language: "hindi",
     expertise: "face-reading",
     difficulty: "beginner"
   },
   {
     id: 68,
-    question: "வணக்கம், என் முகத்தில் தாடை வரி மிகவும் சதுரமும் வலிமையும் உடையது. இதன் பொருள் என்ன?",
+    question: "வணக்கம், என் முகத்தில் jawline மிகவும் square மற்றும் strong. இதன் பொருள் என்ன?",
     correctAnswer: "Strong square jawline face reading-ல் powerful indicator! Characteristics: 1) Strong determination மற்றும் willpower - goals achieve செய்வீர்கள் எப்படியும். 2) Leadership qualities - natural authority. 3) Practical மற்றும் action-oriented - thinker இல்லை, doer. 4) Competitive spirit - challenges-ஐ enjoy செய்பவர். 5) Stamina மற்றும் physical strength. 6) Financial security - money matters-ல் smart. 7) Loyal மற்றும் dependable. Square jawline especially: decision-making ability excellent, resilience high. Wider jaw: more aggressive leadership. Narrow jaw with definition: strategic leadership. Career: business, sports, military, construction, real estate, entrepreneurship. Challenge: sometimes too stubborn, compromise கடினம். Relationships: protective partner. Overall excellent sign - success assured!",
     language: "tamil",
     expertise: "face-reading",
@@ -566,7 +566,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 70,
-    question: "నమస్కారం, నా ముంత చాలా మొనదేలుగా ఉంది. ముఖరేఖ శాస్త్రం ప్రకారం మొనదేలిన ముంత అంటే ఏమిటి?",
+    question: "నమస్కారం, నా chin చాలా pointed. Face reading ప్రకారం pointed chin అంటే ఏమిటి?",
     correctAnswer: "Pointed chin face reading లో specific personality reveal చేస్తుంది: 1) Sharp intellect మరియు quick thinking - fast learner. 2) Diplomatic nature - situations smoothly handle చేస్తారు. 3) Persuasive communication skills - convince చేయగలరు. 4) Flexible మరియు adaptable - changes handle చేస్తారు. 5) Artistic or creative talents. 6) Youthful appearance longer. Challenges: 1) Less stamina compared to strong chin - persistence work చేయాలి. 2) Sometimes indecisive - multiple options confuse అవుతారు. 3) Financial ups and downs possible - savings important. 4) Later life లో health attention కావాలి. Career: communication, arts, media, diplomacy, design, writing. Avoid: heavy manual labor, routine monotonous jobs. Pointed chin people charm మరియు intelligence ద్వారా succeed అవుతారు. Develop persistence మరియు financial discipline - success assured!",
     language: "telugu",
     expertise: "face-reading",
@@ -584,7 +584,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 72,
-    question: "मैं मीरा हूं। मुझे चिंता और तनाव बहुत रहता है। मेरे लिए कौन सा स्फटिक सबसे अच्छा होगा?",
+    question: "मैं मीरा हूं। मुझे anxiety और stress बहुत रहती है। कौन सा crystal मेरे लिए सबसे अच्छा होगा?",
     correctAnswer: "Anxiety aur stress के लिए best crystals: 1) AMETHYST - सबसे powerful calming crystal। Purple stone, crown chakra से connect। Benefits: mental clarity, peaceful sleep, negative thoughts remove। Use: pillow के नीचे रखें या third eye पर meditation में। 2) LEPIDOLITE - natural lithium होता है, anti-anxiety। Benefits: emotional balance, depression relief। 3) BLUE LACE AGATE - gentle calming energy। Benefits: communication anxiety reduce, throat chakra heal। 4) BLACK TOURMALINE - protection stone। Benefits: negative energy block, grounding। How to use combo: morning में Blue Lace Agate wear करें, दिन भर Black Tourmaline pocket में, night में Amethyst pillow के नीचे। Daily practice: 10 minute meditation Lepidolite hold करके। Cleanse weekly under moonlight। 21 days regular use करें - results दिखेंगे!",
     language: "hindi",
     expertise: "crystal-healing",
@@ -592,7 +592,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 73,
-    question: "வணக்கம், என் தொழிலில் அதிர்ஷ்டம் இல்லை. தொழில் வெற்றிக்கான எந்த கல்?",
+    question: "வணக்கம், என் தொழிலில் அதிர்ஷ்டம் இல்லை. Business success க்கான crystal எது?",
     correctAnswer: "Business மற்றும் prosperity க்கான powerful crystals: 1) CITRINE - 'Merchant's Stone' - மிகவும் famous wealth crystal. Bright yellow, solar plexus chakra. Benefits: money attraction, success, confidence, sales improve. Placement: cash register அருகில், wallet-ல், office desk மேல். 2) PYRITE - 'Fool's Gold'. Benefits: abundance, protection, willpower. Office entrance-ல் வையுங்கள். 3) GREEN AVENTURINE - 'Stone of Opportunity'. Benefits: luck, new opportunities attract, leadership. 4) TIGER'S EYE - courage, confidence, decision-making. Setup: Citrine cash box-ல், Pyrite entrance left side, Green Aventurine desk-ல், Tiger's Eye பாக்கெட்டில். Cleanse: புதிய மற்றும் full moon-ல். Charge: Thursday morning sunlight-ல். Affirmation சொல்லுங்கள்: 'My business prospers and grows'. 40 நாட்கள் consistent ஆக வையுங்கள் - results நல்லது!",
     language: "tamil",
     expertise: "crystal-healing",
@@ -600,7 +600,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 74,
-    question: "నమస్కారం, నా సంబంధంలో సమస్యలు ఉన్నాయి. ప్రేమ మరియు సామరస్యానికి ఏ రాయి ఉపయోగించాలి?",
+    question: "నమస్కారం, నా relationship-లో problems ఉన్నాయి. Love మరియు harmony కోసం ఏ crystal use చేయాలి?",
     correctAnswer: "Love మరియు relationships కోసం healing crystals: 1) ROSE QUARTZ - 'Love Stone' - అత్యంత important. Pink color, heart chakra. Benefits: unconditional love, forgiveness, self-love, partnership harmony. Use: bedroom-లో రెండు pieces (couple-కి), bed headboard దగ్గర, heart chakra మీద meditate. 2) RHODONITE - emotional healing, past wounds release. Pink with black. Benefits: forgiveness, compassion, trust rebuild. 3) MALACHITE - transformation, patterns break. Benefits: toxic relationships నుండి protect. 4) MOONSTONE - feminine energy, emotional balance. Benefits: new beginnings, understanding. Complete setup: Rose Quartz pair bedroom-లో southwest corner, Rhodonite మీరు wear చేయండి pendant గా, Moonstone full moon days. Cleanse monthly. Affirmation: 'Love flows freely between us'. Both partners touch crystals together weekly - bond strengthen అవుతుంది. 28 days minimum.",
     language: "telugu",
     expertise: "crystal-healing",
@@ -608,7 +608,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 75,
-    question: "नमस्कार, माझ्या मुलीला नेहमी वाईट स्वप्ने येतात आणि ती घाबरते। कोणता स्फटिक मदत करेल?",
+    question: "नमस्कार, माझ्या मुलीला नेहमी वाईट स्वप्ने येतात आणि ती घाबरते। कोणता crystal मदत करेल?",
     correctAnswer: "मुलांसाठी nightmares आणि fear साठी gentle crystals: 1) AMETHYST - सर्वात safe बालकांसाठी। Light purple पसंत करा। Benefits: peaceful sleep, bad dreams protect, spiritual protection। तिच्या pillow खाली किंवा bedside table वर ठेवा। 2) LEPIDOLITE - calming, anxiety reduce। 3) MOONSTONE - emotional security, maternal energy। 4) CLEAR QUARTZ - छोटा smooth piece - overall protection। Setup: तिचे bedroom मध्ये Amethyst geode ठेवा, Moonstone bed जवळ, Lepidolite तिच्या toy सोबत। Cleansing: moonlight मध्ये (sunlight नाही - gentle energy साठी)। तिला crystal देताना सांगा - 'हा तुझा protective friend आहे'। Crystal pouch बनवा soft cloth मध्ये - ती सोबत ठेवू शकते। Sharp edges नसलेले smooth stones वापरा। Parents: तुम्ही Rose Quartz तिच्या room मध्ये ठेवा - nurturing energy।",
     language: "marathi",
     expertise: "crystal-healing",
@@ -624,7 +624,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 77,
-    question: "मैं राजेश हूँ। मुझे दीर्घकालिक कमर-दर्द है। शारीरिक उपचार में कौन-से स्फटिक पत्थर मदद कर सकते हैं?",
+    question: "Main Rajesh hun. Mere chronic back pain hai. Kaunse crystals physical healing mein help kar sakte hain?",
     correctAnswer: "Physical healing ke liye crystals medical treatment ke साथ use करें: 1) BLOODSTONE - pain relief, circulation improve। Dark green with red spots। Benefits: inflammation reduce, vitality boost। Directly पीठ पर affected area पर रखें 15 minutes daily। 2) HEMATITE - grounding, pain management। Silver-black metallic। Benefits: blood flow, strength। 3) CARNELIAN - lower back specifically। Orange-red। Benefits: sacral chakra balance, energy boost। 4) CLEAR QUARTZ - master healer, amplifies अन्य crystals। Treatment:누워 back pain area पर Bloodstone tape से attach करें या पास रखें। Hematite bracelet दोनों ankles पर (grounding)। Carnelian lower back पर if pain वहां है। Crystal elixir (indirect method): Bloodstone के साथ पानी charge करें, पीयें। Cleanse stones रोज़ under running water। Monthly recharge sunlight में। Warning: crystals doctors के treatment replace नहीं करते - supplementary हैं। 3-4 weeks consistent use करें।",
     language: "hindi",
     expertise: "crystal-healing",
@@ -632,7 +632,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 78,
-    question: "வணக்கம், என் வீட்டில் எதிர்மறை ஆற்றல் அதிகம். எந்த கல் எங்கு வைக்க வேண்டும்?",
+    question: "வணக்கம், என் வீட்டில் negative energy அதிகம். எந்த crystal எங்கு வைக்க வேண்டும்?",
     correctAnswer: "Home protection மற்றும் negative energy clearing க்கான crystal placement: 1) BLACK TOURMALINE - strongest protection stone. Benefits: EMF radiation block, negative energy absorb, psychic protection. Placement: main entrance அருகில் both sides, WiFi router அருகில், bedroom corners-ல். 2) SELENITE - cleansing powerhouse. White crystal. Benefits: space purify, energy flow. Window sills-ல் வையுங்கள் (natural cleanser). 3) CLEAR QUARTZ - amplifier மற்றும் harmonizer. Living room center table-ல். 4) AMETHYST - peaceful energy. Bedroom-ல் southwest. Complete home grid: entrance-ல் Black Tourmaline pair, windows-ல் Selenite towers, center-ல் large Clear Quartz, bedrooms-ல் Amethyst. Initial cleansing: எல்லா crystals-ம் salt water-ல் overnight, பின் sage smoke pass செய்யுங்கள் வீடு முழுவதும். Monthly recharge full moon-ல். Result: 7-10 days-ல் energy shift feel ஆகும்!",
     language: "tamil",
     expertise: "crystal-healing",
@@ -648,7 +648,7 @@ export const knowledgeQuestions = [
   },
   {
     id: 80,
-    question: "నమస్కారం, నేను చక్ర సమతుల్యం చేయాలనుకుంటున్నాను. ప్రతి చక్రానికి ఏ స్ఫటికం ఉపయోగించాలి?",
+    question: "నమస్కారం, నేను chakra balancing చేయాలనుకుంటున్నాను. ప్రతి chakra కి ఏ crystal use చేయాలి?",
     correctAnswer: "Complete chakra crystal healing system: 1) ROOT CHAKRA (Muladhara/Red) - RED JASPER or BLACK TOURMALINE. Benefits: grounding, security, survival. Base of spine-పై వయ్యండి. 2) SACRAL CHAKRA (Svadhisthana/Orange) - CARNELIAN. Benefits: creativity, sexuality, emotions. Lower abdomen. 3) SOLAR PLEXUS (Manipura/Yellow) - CITRINE or TIGER'S EYE. Benefits: confidence, power, digestion. Upper abdomen. 4) HEART CHAKRA (Anahata/Green-Pink) - ROSE QUARTZ or GREEN AVENTURINE. Benefits: love, compassion. Heart center. 5) THROAT CHAKRA (Vishuddha/Blue) - BLUE LACE AGATE or SODALITE. Benefits: communication, truth. Throat. 6) THIRD EYE (Ajna/Indigo) - AMETHYST or LAPIS LAZULI. Benefits: intuition, wisdom. Forehead. 7) CROWN CHAKRA (Sahasrara/Violet-White) - CLEAR QUARTZ or AMETHYST. Benefits: spirituality, connection. Top of head. Full session: lie down, place all crystals simultaneously 20 minutes. Deep breathing. Weekly చేయండి balance కోసం. Start root నుండి, gradually move up.",
     language: "telugu",
     expertise: "crystal-healing",
