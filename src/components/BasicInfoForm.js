@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { supportedLanguages } from '../data/languages';
 
 const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
   const [formData, setFormData] = useState({
     name: '',
     mobileNumber: '',
     dob: '',
-    experienceType: '',
-    yearOfExperience: 0,
+    experienceTypes: [], // Changed to array for multi-select
+    yearOfExperience: '',
     selfRate: 5,
+    language: 'english', // Added language field
     resume: null
   });
 
@@ -35,11 +37,11 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
       newErrors.dob = 'Date of birth is required';
     }
 
-    if (!formData.experienceType) {
-      newErrors.experienceType = 'Please select your area of expertise';
+    if (formData.experienceTypes.length === 0) {
+      newErrors.experienceTypes = 'Please select at least one area of expertise';
     }
 
-    if (formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
+    if (!formData.yearOfExperience || formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
       newErrors.yearOfExperience = 'Please enter a valid number of years (0-50)';
     }
 
@@ -80,8 +82,24 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     return formData.name && 
            formData.mobileNumber && 
            formData.dob && 
-           formData.experienceType && 
+           formData.experienceTypes.length > 0 && 
+           formData.yearOfExperience !== '' && 
            formData.yearOfExperience >= 0;
+  };
+
+  const handleExperienceTypeChange = (type) => {
+    const newExperienceTypes = formData.experienceTypes.includes(type)
+      ? formData.experienceTypes.filter(t => t !== type)
+      : [...formData.experienceTypes, type];
+    
+    handleInputChange('experienceTypes', newExperienceTypes);
+  };
+
+  // Calculate max date for DOB (18 years ago)
+  const getMaxDate = () => {
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    return maxDate.toISOString().split('T')[0];
   };
 
   return (
@@ -210,6 +228,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               type="date"
               required
               value={formData.dob}
+              max={getMaxDate()}
               onChange={(e) => handleInputChange('dob', e.target.value)}
               style={{
                 width: '100%',
@@ -226,7 +245,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
             )}
           </div>
 
-          {/* Experience Type */}
+          {/* Language Selection */}
           <div style={{ marginBottom: '20px' }}>
             <label style={{ 
               display: 'block', 
@@ -234,7 +253,45 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               fontWeight: '600',
               color: '#374151'
             }}>
-              Area of Expertise *
+              Preferred Language *
+            </label>
+            <select
+              value={formData.language}
+              onChange={(e) => handleInputChange('language', e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
+                fontSize: '16px',
+                backgroundColor: 'white'
+              }}
+            >
+              {supportedLanguages.map((lang) => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.name} ({lang.nativeName})
+                </option>
+              ))}
+            </select>
+            <p style={{ 
+              fontSize: '12px', 
+              color: '#6b7280', 
+              margin: '5px 0 0 0',
+              lineHeight: '1.4'
+            }}>
+              Select your preferred language for test questions and interface
+            </p>
+          </div>
+
+          {/* Experience Type - Multi-select */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontWeight: '600',
+              color: '#374151'
+            }}>
+              Areas of Expertise * (Select all that apply)
             </label>
             <div style={{ 
               display: 'grid', 
@@ -248,28 +305,39 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                     display: 'flex',
                     alignItems: 'center',
                     padding: '12px',
-                    border: `2px solid ${formData.experienceType === type ? '#ea580c' : '#e2e8f0'}`,
+                    border: `2px solid ${formData.experienceTypes.includes(type) ? '#ea580c' : '#e2e8f0'}`,
                     borderRadius: '8px',
                     cursor: 'pointer',
-                    backgroundColor: formData.experienceType === type ? '#fef3c7' : 'white',
+                    backgroundColor: formData.experienceTypes.includes(type) ? '#fef3c7' : 'white',
                     transition: 'all 0.2s ease'
                   }}
                 >
                   <input
-                    type="radio"
-                    name="experienceType"
-                    value={type}
-                    checked={formData.experienceType === type}
-                    onChange={(e) => handleInputChange('experienceType', e.target.value)}
+                    type="checkbox"
+                    checked={formData.experienceTypes.includes(type)}
+                    onChange={() => handleExperienceTypeChange(type)}
                     style={{ marginRight: '10px' }}
                   />
                   <span style={{ fontWeight: '500' }}>{type}</span>
                 </label>
               ))}
             </div>
-            {errors.experienceType && (
+            {formData.experienceTypes.length > 0 && (
+              <div style={{ 
+                marginTop: '10px',
+                padding: '10px',
+                backgroundColor: '#f0fdf4',
+                borderRadius: '6px',
+                border: '1px solid #bbf7d0'
+              }}>
+                <span style={{ fontSize: '14px', color: '#166534', fontWeight: '500' }}>
+                  Selected: {formData.experienceTypes.join(', ')}
+                </span>
+              </div>
+            )}
+            {errors.experienceTypes && (
               <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
-                {errors.experienceType}
+                {errors.experienceTypes}
               </p>
             )}
           </div>
@@ -285,12 +353,19 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               Years of Experience *
             </label>
             <input
-              type="number"
-              min="0"
-              max="50"
+              type="text"
               value={formData.yearOfExperience}
-              onChange={(e) => handleInputChange('yearOfExperience', parseInt(e.target.value) || 0)}
-              placeholder="Enter years of experience"
+              onChange={(e) => {
+                const value = e.target.value;
+                // Allow only numbers and empty string
+                if (value === '' || /^\d+$/.test(value)) {
+                  const numValue = value === '' ? '' : parseInt(value);
+                  if (numValue === '' || (numValue >= 0 && numValue <= 50)) {
+                    handleInputChange('yearOfExperience', numValue);
+                  }
+                }
+              }}
+              placeholder="Enter years of experience (0-50)"
               style={{
                 width: '100%',
                 padding: '12px',
