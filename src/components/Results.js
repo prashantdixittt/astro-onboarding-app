@@ -14,7 +14,7 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
   };
 
   const getGradeColor = (score) => {
-    if (score >= 80) return '#4caf50'; // Green
+    if (score >= 80) return '#ea580c'; // Orange
     if (score >= 60) return '#ff9800'; // Orange
     return '#f44336'; // Red
   };
@@ -40,11 +40,11 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
           marginBottom: '20px',
           backgroundColor: '#f8f9fa'
         }}>
-          <h3 style={{ color: '#1976d2', marginBottom: '15px' }}>👤 Candidate Information</h3>
+          <h3 style={{ color: '#ea580c', marginBottom: '15px' }}>👤 Candidate Information</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px', fontSize: '14px' }}>
             <div><strong>Name:</strong> {basicInfo.name}</div>
             <div><strong>Mobile:</strong> {basicInfo.mobileNumber}</div>
-            <div><strong>Experience:</strong> {basicInfo.experience.type}</div>
+            <div><strong>Experience:</strong> {basicInfo.experienceType}</div>
             <div><strong>Years:</strong> {basicInfo.yearOfExperience} years</div>
             <div><strong>Self Rating:</strong> {basicInfo.selfRate}/10</div>
             <div><strong>DOB:</strong> {basicInfo.dob}</div>
@@ -113,7 +113,7 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
             padding: '20px',
             backgroundColor: 'white'
           }}>
-            <h3 style={{ color: '#2196f3', marginBottom: '15px' }}>📚 Knowledge Test</h3>
+            <h3 style={{ color: '#ea580c', marginBottom: '15px' }}>📚 Knowledge Test</h3>
             <div style={{ fontSize: '32px', fontWeight: 'bold', color: getGradeColor(knowledgeResults.averageScore) }}>
               {Math.round(knowledgeResults.averageScore)}/100
             </div>
@@ -218,7 +218,7 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
         backgroundColor: '#f0f8ff',
         marginBottom: '20px'
       }}>
-        <h3 style={{ color: '#1976d2', marginBottom: '15px' }}>💡 Recommendation</h3>
+        <h3 style={{ color: '#ea580c', marginBottom: '15px' }}>💡 Recommendation</h3>
         <p style={{ fontSize: '16px', lineHeight: '1.5', margin: 0 }}>
           {overallScore >= 80 && "Excellent! This candidate demonstrates strong astrological knowledge and communication skills. Recommended for onboarding."}
           {overallScore >= 60 && overallScore < 80 && "Good performance with room for improvement. Consider additional training in weaker areas before full onboarding."}
@@ -230,7 +230,7 @@ const Results = ({ basicInfo, mcqResults, knowledgeResults, communicationResults
         <button
           onClick={onRestart}
           style={{
-            backgroundColor: '#4caf50',
+            backgroundColor: '#ea580c',
             color: 'white',
             padding: '12px 24px',
             border: 'none',
