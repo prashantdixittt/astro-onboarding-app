@@ -39,6 +39,11 @@ function App() {
     setCurrentStep('basicInfo');
   };
 
+  const handleLogoClick = () => {
+    // Reset to home screen (start screen)
+    setCurrentStep('start');
+  };
+
   const handleBasicInfoComplete = (data) => {
     setBasicInfo(data);
     setCurrentStep('prerequisites');
@@ -124,6 +129,7 @@ function App() {
           isProcessing={false}
           isDisabled={isHeaderDisabled}
           mcqState={mcqState}
+          onLogoClick={currentStep === 'thankyou' ? handleLogoClick : null}
         />
       )}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from './Logo';
 
-const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqState }) => {
+const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqState, onLogoClick }) => {
   const getButtonConfig = () => {
     switch (currentStep) {
       case 'basicInfo':
@@ -64,11 +64,30 @@ const Header = ({ currentStep, onNext, onBack, isProcessing, isDisabled, mcqStat
       gap: '10px'
     }}>
       {/* Logo and App Name */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '15px'
-      }}>
+      <div 
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '15px',
+          cursor: onLogoClick ? 'pointer' : 'default',
+          transition: 'all 0.3s ease',
+          padding: '5px',
+          borderRadius: '8px'
+        }}
+        onClick={onLogoClick}
+        onMouseOver={(e) => {
+          if (onLogoClick) {
+            e.currentTarget.style.backgroundColor = 'rgba(234, 88, 12, 0.05)';
+            e.currentTarget.style.transform = 'scale(1.02)';
+          }
+        }}
+        onMouseOut={(e) => {
+          if (onLogoClick) {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.transform = 'scale(1)';
+          }
+        }}
+      >
         <Logo size={45} />
         <h1 style={{
           margin: 0,
