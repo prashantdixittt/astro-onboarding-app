@@ -194,8 +194,8 @@ const StartScreen = ({ onStartAssessment }) => {
           e.target.style.boxShadow = '0 10px 30px rgba(249, 115, 22, 0.3)';
         }}
       >
-        <span style={{ 
-          position: 'relative', 
+        <span style={{
+          position: 'relative',
           zIndex: 2,
           display: 'flex',
           alignItems: 'center',

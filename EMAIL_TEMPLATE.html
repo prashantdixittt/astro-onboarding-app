@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Results - AstroLokal</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 40px 20px;">
+
+        <!-- Main Container -->
+        <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%); padding: 40px 30px; text-align: center;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: bold;">
+                🌟 New Assessment Results
+              </h1>
+              <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.95); font-size: 16px;">
+                {{assessment_date}}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Overall Score Banner -->
+          <tr>
+            <td style="padding: 40px 30px; text-align: center; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+              <div style="margin-bottom: 10px; font-size: 18px; font-weight: 600; color: #92400e;">
+                Overall Performance
+              </div>
+              <div style="font-size: 64px; font-weight: bold; color: #ea580c; margin: 10px 0;">
+                {{overall_score}}%
+              </div>
+              <div style="display: inline-block; padding: 10px 30px; background-color: rgba(255,255,255,0.9); border-radius: 50px; font-size: 18px; font-weight: bold; color: #ea580c; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                {{overall_grade}}
+              </div>
+              <p style="margin: 15px 0 0 0; font-size: 15px; color: #78350f; font-weight: 500;">
+                {{recommendation}}
+              </p>
+            </td>
+          </tr>
+
+          <!-- Candidate Information -->
+          <tr>
+            <td style="padding: 30px;">
+              <h2 style="margin: 0 0 20px 0; font-size: 22px; color: #1e293b; font-weight: bold; border-bottom: 3px solid #ea580c; padding-bottom: 10px;">
+                👤 Candidate Information
+              </h2>
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Name:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b; font-weight: 600;">{{candidate_name}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Email:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b;">{{candidate_email}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Mobile:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b;">{{candidate_mobile}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Date of Birth:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b;">{{candidate_dob}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Experience:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b; font-weight: 600;">{{candidate_experience}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Expertise:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #ea580c; font-weight: 600;">{{candidate_expertise}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">
+                    <strong style="color: #64748b; font-size: 13px;">Self Rating:</strong>
+                  </td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right;">
+                    <span style="color: #1e293b; font-weight: 600;">{{candidate_self_rating}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px;">
+                    <strong style="color: #64748b; font-size: 13px;">Languages:</strong>
+                  </td>
+                  <td style="padding: 10px; text-align: right;">
+                    <span style="color: #1e293b;">{{candidate_languages}}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Test Breakdown -->
+          <tr>
+            <td style="padding: 30px; background-color: #f8fafc;">
+              <h2 style="margin: 0 0 20px 0; font-size: 22px; color: #1e293b; font-weight: bold; border-bottom: 3px solid #ea580c; padding-bottom: 10px;">
+                📊 Test Breakdown
+              </h2>
+
+              <!-- MCQ Test -->
+              <div style="background-color: #ffffff; border-left: 4px solid #ea580c; border-radius: 8px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 24px; margin-right: 10px;">📝</span>
+                  <h3 style="margin: 0; font-size: 18px; color: #1e293b;">MCQ Test</h3>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #ea580c; margin: 10px 0;">
+                  {{mcq_score}}%
+                </div>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">
+                  Correct Answers: <strong>{{mcq_correct}}/{{mcq_total}}</strong>
+                </p>
+              </div>
+
+              <!-- Knowledge Test -->
+              <div style="background-color: #ffffff; border-left: 4px solid #f97316; border-radius: 8px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 24px; margin-right: 10px;">🎓</span>
+                  <h3 style="margin: 0; font-size: 18px; color: #1e293b;">Knowledge Test</h3>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #f97316; margin: 10px 0;">
+                  {{knowledge_score}}%
+                </div>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #64748b;">
+                  Questions Answered: <strong>{{knowledge_questions}}</strong>
+                </p>
+
+                <!-- Knowledge Feedback -->
+                <div style="margin-top: 15px; padding: 15px; background-color: #fef3c7; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                  <strong style="color: #92400e; font-size: 13px; display: block; margin-bottom: 5px;">Detailed Feedback:</strong>
+                  <p style="margin: 0; color: #78350f; font-size: 14px; line-height: 1.6; white-space: pre-line;">{{knowledge_feedback}}</p>
+                </div>
+              </div>
+
+              <!-- Communication Test -->
+              <div style="background-color: #ffffff; border-left: 4px solid #fb923c; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 24px; margin-right: 10px;">🎙️</span>
+                  <h3 style="margin: 0; font-size: 18px; color: #1e293b;">Communication Test</h3>
+                </div>
+                <div style="font-size: 36px; font-weight: bold; color: #fb923c; margin: 10px 0;">
+                  {{communication_score}}%
+                </div>
+                <p style="margin: 5px 0; font-size: 14px; color: #64748b;">
+                  Confidence Score: <strong>{{communication_confidence}}/100</strong>
+                </p>
+
+                <!-- Communication Breakdown -->
+                <table role="presentation" style="width: 100%; margin-top: 15px; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 8px; background-color: #fef3c7; border-radius: 6px; text-align: center; width: 25%;">
+                      <div style="font-size: 11px; color: #92400e; font-weight: 600;">Clarity</div>
+                      <div style="font-size: 16px; color: #ea580c; font-weight: bold;">{{comm_clarity}}/25</div>
+                    </td>
+                    <td style="width: 2%;"></td>
+                    <td style="padding: 8px; background-color: #fef3c7; border-radius: 6px; text-align: center; width: 25%;">
+                      <div style="font-size: 11px; color: #92400e; font-weight: 600;">Vocabulary</div>
+                      <div style="font-size: 16px; color: #ea580c; font-weight: bold;">{{comm_vocabulary}}/25</div>
+                    </td>
+                    <td style="width: 2%;"></td>
+                    <td style="padding: 8px; background-color: #fef3c7; border-radius: 6px; text-align: center; width: 25%;">
+                      <div style="font-size: 11px; color: #92400e; font-weight: 600;">Empathy</div>
+                      <div style="font-size: 16px; color: #ea580c; font-weight: bold;">{{comm_empathy}}/25</div>
+                    </td>
+                    <td style="width: 2%;"></td>
+                    <td style="padding: 8px; background-color: #fef3c7; border-radius: 6px; text-align: center; width: 25%;">
+                      <div style="font-size: 11px; color: #92400e; font-weight: 600;">Structure</div>
+                      <div style="font-size: 16px; color: #ea580c; font-weight: bold;">{{comm_structure}}/25</div>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Feedback -->
+                <div style="margin-top: 15px; padding: 15px; background-color: #fef3c7; border-radius: 8px; border-left: 3px solid #f59e0b;">
+                  <strong style="color: #92400e; font-size: 13px; display: block; margin-bottom: 5px;">Feedback:</strong>
+                  <p style="margin: 0; color: #78350f; font-size: 14px; line-height: 1.6;">
+                    {{communication_feedback}}
+                  </p>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px; text-align: center; background-color: #1e293b; color: #cbd5e1;">
+              <p style="margin: 0 0 10px 0; font-size: 14px;">
+                This is an automated email from the <strong style="color: #fb923c;">AstroLokal Assessment System</strong>
+              </p>
+              <p style="margin: 0; font-size: 12px; color: #94a3b8;">
+                © 2025 AstroLokal. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
