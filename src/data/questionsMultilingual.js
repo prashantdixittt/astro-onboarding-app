@@ -768,8 +768,14 @@ export const getQuestionById = (questionId, language) => {
 };
 
 // Helper function to get a random question by criteria
-export const getRandomQuestionByCriteria = (expertise, difficulty, language) => {
-  const questions = multilingualKnowledgeQuestions[expertise]?.[difficulty] || [];
+// excludeIds: optional array of question IDs to exclude from selection
+export const getRandomQuestionByCriteria = (expertise, difficulty, language, excludeIds = []) => {
+  let questions = multilingualKnowledgeQuestions[expertise]?.[difficulty] || [];
+
+  // Filter out excluded question IDs to ensure different questions
+  if (excludeIds.length > 0) {
+    questions = questions.filter(q => !excludeIds.includes(q.id));
+  }
 
   if (questions.length === 0) {
     console.warn(`No multilingual questions found for expertise: ${expertise}, difficulty: ${difficulty}. Using fallback from old questions.`);
@@ -789,12 +795,18 @@ export const getRandomQuestionByCriteria = (expertise, difficulty, language) => 
       filteredQuestions = filteredQuestions.filter(q => q.language === language.toLowerCase());
     }
 
+    // Also filter out excluded IDs from fallback questions
+    if (excludeIds.length > 0) {
+      filteredQuestions = filteredQuestions.filter(q => !excludeIds.includes(q.id));
+    }
+
     if (filteredQuestions.length === 0) {
       // If no questions in requested language, try English
       filteredQuestions = oldQuestions.filter(q =>
         q.expertise === expertise &&
         q.difficulty === difficulty &&
-        q.language === 'english'
+        q.language === 'english' &&
+        !excludeIds.includes(q.id)
       );
     }
 

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getRandomQuestionByCriteria, getQuestionById } from '../data/questionsMultilingual';
 import geminiService from '../services/geminiService';
 
 const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange, onLoadingStart, onLoadingEnd }) => {
@@ -11,9 +10,134 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
   const [speechRecognitionLang, setSpeechRecognitionLang] = useState('en-US');
   const [question, setQuestion] = useState(null);
   const [questionId, setQuestionId] = useState(null);
+  const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const mediaRecorderRef = useRef(null);
   const recognitionRef = useRef(null);
   const audioChunksRef = useRef([]);
+
+  // Hardcoded client scenarios for different astrology fields
+  const clientScenarios = [
+    {
+      id: 1,
+      question: "A client asks: 'I've been feeling very anxious about my career future. My Saturn return is approaching and I'm worried about job stability. Can you help me understand what the stars say about my professional path?'",
+      expertise: "vedic-astrology",
+      difficulty: "intermediate"
+    },
+    {
+      id: 2,
+      question: "A client asks: 'My relationship has been going through a rough patch. I pulled the Tower and the Three of Swords in my reading. What do these cards mean for my love life, and how can I navigate this difficult time?'",
+      expertise: "tarot",
+      difficulty: "beginner"
+    },
+    {
+      id: 3,
+      question: "A client asks: 'I just moved into a new home and the energy feels off. The main entrance faces southwest. According to Vastu principles, is this auspicious? What remedies can I apply to improve the energy?'",
+      expertise: "vastu-shastra",
+      difficulty: "intermediate"
+    },
+    {
+      id: 4,
+      question: "A client asks: 'My life path number is 7, and I keep seeing the number 333 everywhere. What does this synchronicity mean, and how does it relate to my spiritual journey?'",
+      expertise: "numerology",
+      difficulty: "beginner"
+    },
+    {
+      id: 5,
+      question: "A client asks: 'I'm looking at my palm and I see a break in my life line. Does this mean something bad will happen? Also, my heart line is very deep - what does that indicate about my emotional nature?'",
+      expertise: "palmistry",
+      difficulty: "intermediate"
+    },
+    {
+      id: 6,
+      question: "A client asks: 'According to Lal Kitab, I have a debilitated Mars in my 7th house. People say this causes Mangal Dosha. What remedies from Lal Kitab can help me with marriage prospects?'",
+      expertise: "lal-kitab",
+      difficulty: "expert"
+    },
+    {
+      id: 7,
+      question: "A client asks: 'I've been experiencing health issues and someone suggested I try crystal healing. Which crystals would be best for anxiety and sleep problems? How should I use them for maximum benefit?'",
+      expertise: "crystal-healing",
+      difficulty: "beginner"
+    },
+    {
+      id: 8,
+      question: "A client asks: 'I notice I have a prominent mole on the right side of my forehead. In face reading, what does this signify about my personality and fortune? Should I be concerned about it?'",
+      expertise: "face-reading",
+      difficulty: "intermediate"
+    },
+    {
+      id: 9,
+      question: "A client asks: 'I'm going through my Jupiter Mahadasha and I've heard this is supposed to be auspicious, but I'm facing financial difficulties. Why is this happening and what can I do to improve my situation?'",
+      expertise: "vedic-astrology",
+      difficulty: "expert"
+    },
+    {
+      id: 10,
+      question: "A client asks: 'I drew the Death card followed by the Sun in my reading about a new business venture. I'm scared - does the Death card mean my business will fail?'",
+      expertise: "tarot",
+      difficulty: "beginner"
+    },
+    {
+      id: 11,
+      question: "A client asks: 'My bedroom is in the southeast corner of my house. I've been having trouble sleeping and my relationship with my spouse is strained. Is this related to Vastu? What changes should I make?'",
+      expertise: "vastu-shastra",
+      difficulty: "expert"
+    },
+    {
+      id: 12,
+      question: "A client asks: 'I was born on the 23rd, which reduces to 5. My partner was born on the 16th, which reduces to 7. Are we compatible according to numerology? What challenges might we face?'",
+      expertise: "numerology",
+      difficulty: "intermediate"
+    },
+    {
+      id: 13,
+      question: "A client asks: 'I have a star-shaped marking on my Mount of Jupiter. I read somewhere that this is very rare. What does it mean for my career and ambitions?'",
+      expertise: "palmistry",
+      difficulty: "expert"
+    },
+    {
+      id: 14,
+      question: "A client asks: 'I'm facing constant obstacles in life. My Lal Kitab reading shows Rahu in the 10th house. What simple remedies can I perform at home to reduce the negative effects?'",
+      expertise: "lal-kitab",
+      difficulty: "intermediate"
+    },
+    {
+      id: 15,
+      question: "A client asks: 'Someone gifted me an amethyst crystal but I'm not sure how to cleanse it or charge it properly. Also, can I wear it every day or are there specific times when it's more effective?'",
+      expertise: "crystal-healing",
+      difficulty: "beginner"
+    },
+    {
+      id: 16,
+      question: "A client asks: 'My eyebrows are very thick and close together. In physiognomy, what does this facial feature reveal about my character and destiny?'",
+      expertise: "face-reading",
+      difficulty: "beginner"
+    },
+    {
+      id: 17,
+      question: "A client asks: 'Mercury is retrograde right now and I have an important job interview next week. Should I postpone it? How can I protect myself from Mercury retrograde effects?'",
+      expertise: "vedic-astrology",
+      difficulty: "beginner"
+    },
+    {
+      id: 18,
+      question: "A client asks: 'I keep pulling the same card - the Hermit - in different readings over the past month. What is the universe trying to tell me? Should I make changes in my social life?'",
+      expertise: "tarot",
+      difficulty: "intermediate"
+    },
+    {
+      id: 19,
+      question: "A client asks: 'We're planning to construct a new office building. The plot is rectangular but slopes downward towards the north. According to Vastu, is this favorable for business prosperity?'",
+      expertise: "vastu-shastra",
+      difficulty: "expert"
+    },
+    {
+      id: 20,
+      question: "A client asks: 'I'm considering changing my name to match a better numerology number. My current name number is 8 and I keep facing delays. Would changing to a name number 1 or 3 help improve my luck?'",
+      expertise: "numerology",
+      difficulty: "expert"
+    }
+  ];
 
   // All available languages - always show all 5 languages
   const availableLanguages = [
@@ -52,19 +176,31 @@ const CommunicationTest = ({ basicInfo, onComplete, onInputChange, onStateChange
     const firstExpertise = Array.isArray(experienceTypes) ? experienceTypes[0] : experienceTypes;
     const expertise = expertiseMap[firstExpertise] || null;
 
-    // If we already have a question ID, get the same question in the new language
-    if (questionId) {
-      const translatedQuestion = getQuestionById(questionId, selectedLanguage);
-      setQuestion(translatedQuestion);
-    } else {
-      // Get a random question matching the criteria and selected language
-      const selectedQuestion = getRandomQuestionByCriteria(expertise, difficulty, selectedLanguage);
-      setQuestion(selectedQuestion);
-      // Store the question ID for language changes
-      if (selectedQuestion) {
-        setQuestionId(selectedQuestion.id);
+    // Use hardcoded client scenarios - filter by expertise and difficulty if possible
+    let matchingScenarios = clientScenarios;
+
+    // Try to filter by expertise first
+    if (expertise) {
+      const expertiseMatch = clientScenarios.filter(s => s.expertise === expertise);
+      if (expertiseMatch.length > 0) {
+        matchingScenarios = expertiseMatch;
       }
     }
+
+    // Then try to filter by difficulty
+    if (difficulty) {
+      const difficultyMatch = matchingScenarios.filter(s => s.difficulty === difficulty);
+      if (difficultyMatch.length > 0) {
+        matchingScenarios = difficultyMatch;
+      }
+    }
+
+    // Select a random scenario from matching ones
+    const randomIndex = Math.floor(Math.random() * matchingScenarios.length);
+    const selectedScenario = matchingScenarios[randomIndex];
+
+    setQuestion(selectedScenario);
+    setCurrentScenarioIndex(randomIndex);
 
     // Reset audio and transcript when language changes
     setAudioBlob(null);

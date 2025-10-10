@@ -40,7 +40,7 @@ export const sendResultsEmail = async ({
       candidate_email: basicInfo?.email || 'N/A',
       candidate_mobile: basicInfo?.mobileNumber || 'N/A',
       candidate_dob: basicInfo?.dob || 'N/A',
-      candidate_experience: `${basicInfo?.yearOfExperience || 0} years`,
+      candidate_experience: `${basicInfo?.yearOfExperience !== undefined && basicInfo?.yearOfExperience !== null ? basicInfo.yearOfExperience : 0} years`,
       candidate_expertise: Array.isArray(basicInfo?.experienceType)
         ? basicInfo.experienceType.join(', ')
         : basicInfo?.experienceType || 'N/A',
@@ -62,6 +62,13 @@ export const sendResultsEmail = async ({
 
       knowledge_score: scores?.knowledge || 0,
       knowledge_questions: knowledgeResults?.detailedResults?.length || 0,
+
+      // Knowledge Test Feedback - compile all question feedbacks
+      knowledge_feedback: knowledgeResults?.detailedResults
+        ?.map((result, index) =>
+          `Q${index + 1} (${result.result.score}/100): ${result.result.feedback || 'No feedback'}`
+        )
+        .join('\n\n') || 'No feedback available',
 
       communication_score: scores?.communication || 0,
       communication_confidence: communicationResults?.result?.confidence || 0,

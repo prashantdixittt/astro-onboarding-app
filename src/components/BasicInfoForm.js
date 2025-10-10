@@ -522,13 +522,20 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
                 value={formData.yearOfExperience}
                 onChange={(e) => {
                   const value = e.target.value;
-                  if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 50)) {
-                    handleInputChange('yearOfExperience', value === '' ? '' : parseInt(value));
+                  if (value === '') {
+                    handleInputChange('yearOfExperience', '');
+                  } else {
+                    const numValue = parseInt(value);
+                    if (!isNaN(numValue) && numValue >= 0 && numValue <= 50) {
+                      handleInputChange('yearOfExperience', numValue);
+                    }
                   }
                 }}
                 onBlur={(e) => {
-                  const value = e.target.value === '' ? 0 : parseInt(e.target.value) || 0;
-                  handleBlur('yearOfExperience', value);
+                  const value = e.target.value === '' ? '' : parseInt(e.target.value);
+                  if (value !== '') {
+                    handleBlur('yearOfExperience', value);
+                  }
                 }}
                 placeholder="Enter years of experience"
                 style={{
