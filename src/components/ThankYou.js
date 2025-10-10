@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { sendResultsEmail } from '../services/emailService';
+import emailConfig from '../config/emailConfig';
 
 const ThankYou = ({ onRestart, basicInfo, mcqResults, knowledgeResults, communicationResults }) => {
   const [showResults, setShowResults] = useState(false);
@@ -39,6 +41,48 @@ const ThankYou = ({ onRestart, basicInfo, mcqResults, knowledgeResults, communic
 
   const scores = calculateOverallScore();
   const hasResults = mcqResults && knowledgeResults && communicationResults;
+  const [emailSent, setEmailSent] = useState(false);
+  const [emailStatus, setEmailStatus] = useState(''); // 'sending', 'success', 'error'
+
+  // Automatically send email when component loads (if enabled in config)
+  useEffect(() => {
+    const autoSendEmail = async () => {
+      // Check if email is enabled and auto-send is enabled
+      if (!emailConfig.ENABLE_EMAIL_SENDING || !emailConfig.AUTO_SEND_ON_RESULTS) {
+        console.log('Email auto-send disabled in config');
+        return;
+      }
+
+      // Only send if we have results and haven't sent yet
+      if (hasResults && scores && !emailSent) {
+        console.log('Auto-sending results email...');
+        setEmailStatus('sending');
+
+        const result = await sendResultsEmail({
+          basicInfo,
+          scores,
+          mcqResults,
+          knowledgeResults,
+          communicationResults
+        });
+
+        if (result.success) {
+          setEmailStatus('success');
+          setEmailSent(true);
+          console.log('Email auto-sent successfully!');
+        } else {
+          if (result.disabled) {
+            console.log('Email sending is disabled');
+          } else {
+            setEmailStatus('error');
+            console.error('Failed to auto-send email:', result.error);
+          }
+        }
+      }
+    };
+
+    autoSendEmail();
+  }, [hasResults, scores, emailSent, basicInfo, mcqResults, knowledgeResults, communicationResults]);
 
   return (
     <div style={{
@@ -258,6 +302,50 @@ const ThankYou = ({ onRestart, basicInfo, mcqResults, knowledgeResults, communic
               }}>
                 Comprehensive evaluation of {basicInfo?.name ? `${basicInfo.name}'s` : 'your'} performance
               </p>
+
+              {/* Email Status Notification */}
+              {emailStatus === 'sending' && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '10px 16px',
+                  backgroundColor: '#fef3c7',
+                  border: '1px solid #f59e0b',
+                  borderRadius: '8px',
+                  color: '#92400e',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  📧 Sending results to {emailConfig.RECIPIENT_EMAIL}...
+                </div>
+              )}
+              {emailStatus === 'success' && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '10px 16px',
+                  backgroundColor: '#d1fae5',
+                  border: '1px solid #10b981',
+                  borderRadius: '8px',
+                  color: '#065f46',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  ✅ Results successfully sent to {emailConfig.RECIPIENT_EMAIL}
+                </div>
+              )}
+              {emailStatus === 'error' && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '10px 16px',
+                  backgroundColor: '#fee2e2',
+                  border: '1px solid #ef4444',
+                  borderRadius: '8px',
+                  color: '#991b1b',
+                  fontSize: '14px',
+                  fontWeight: '500'
+                }}>
+                  ❌ Failed to send email. Please check EmailJS configuration.
+                </div>
+              )}
             </div>
 
             {/* Modal Body */}
