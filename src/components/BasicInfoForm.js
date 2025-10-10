@@ -7,11 +7,10 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     mobileNumber: '',
     dob: '',
     experienceTypes: [], // Changed to array for multi-select
-    yearOfExperience: 0,
+    yearOfExperience: '',
     selfRate: 5,
     preferredLanguage: 'english', // Added language preference
     comfortableLanguages: [], // Languages you are comfortable in
-    resume: null
   });
 
   const [errors, setErrors] = useState({});
@@ -53,7 +52,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
       newErrors.comfortableLanguages = 'Please select at least one language';
     }
 
-    if (formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
+    if (formData.yearOfExperience === '' || formData.yearOfExperience < 0 || formData.yearOfExperience > 50) {
       newErrors.yearOfExperience = 'Please enter a valid number of years (0-50)';
     }
 
@@ -95,7 +94,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
         }
         break;
       case 'yearOfExperience':
-        if (value < 0 || value > 50) {
+        if (value === '' || value < 0 || value > 50) {
           newErrors.yearOfExperience = 'Please enter a valid number of years (0-50)';
         }
         break;
@@ -154,20 +153,6 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
     handleInputChange('comfortableLanguages', newLanguages);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const newFormData = { ...formData, resume: file };
-      setFormData(newFormData);
-      if (onFormDataChange) {
-        const dataForParent = {
-          ...newFormData,
-          experienceType: newFormData.experienceTypes
-        };
-        onFormDataChange(dataForParent);
-      }
-    }
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -190,7 +175,7 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
            formData.experienceTypes.length <= 3 &&
            formData.comfortableLanguages &&
            formData.comfortableLanguages.length > 0 &&
-           formData.yearOfExperience >= 0;
+           formData.yearOfExperience !== '' && formData.yearOfExperience >= 0;
   };
 
   return (
@@ -521,38 +506,48 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
 
           {/* Years of Experience */}
           <div style={{ marginBottom: '30px' }}>
-            <label style={{ 
-              display: 'block', 
-              marginBottom: '8px', 
-              fontWeight: '600',
-              color: '#374151'
-            }}>
-              Years of Experience *
-            </label>
-            <input
-              type="number"
-              min="0"
-              max="50"
-              value={formData.yearOfExperience}
-              onChange={(e) => handleInputChange('yearOfExperience', parseInt(e.target.value) || 0)}
-              onBlur={(e) => handleBlur('yearOfExperience', parseInt(e.target.value) || 0)}
-              placeholder="Enter years of experience"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: `1px solid ${errors.yearOfExperience ? '#ef4444' : '#d1d5db'}`,
-                borderRadius: '8px',
-                fontSize: '16px'
-              }}
-            />
-            {errors.yearOfExperience && (
-              <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
-                {errors.yearOfExperience}
-              </p>
-            )}
+            <div>
+              <label style={{ 
+                display: 'block', 
+                marginBottom: '8px', 
+                fontWeight: '600',
+                color: '#374151'
+              }}>
+                Years of Experience *
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="50"
+                value={formData.yearOfExperience}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || (parseInt(value) >= 0 && parseInt(value) <= 50)) {
+                    handleInputChange('yearOfExperience', value === '' ? '' : parseInt(value));
+                  }
+                }}
+                onBlur={(e) => {
+                  const value = e.target.value === '' ? 0 : parseInt(e.target.value) || 0;
+                  handleBlur('yearOfExperience', value);
+                }}
+                placeholder="Enter years of experience"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: `1px solid ${errors.yearOfExperience ? '#ef4444' : '#d1d5db'}`,
+                  borderRadius: '8px',
+                  fontSize: '16px'
+                }}
+              />
+              {errors.yearOfExperience && (
+                <p style={{ color: '#ef4444', fontSize: '14px', margin: '5px 0 0 0' }}>
+                  {errors.yearOfExperience}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Resume Upload */}
+          {/* Self Rating */}
           <div style={{ marginBottom: '30px' }}>
             <label style={{ 
               display: 'block', 
@@ -560,40 +555,56 @@ const BasicInfoForm = ({ onComplete, onFormDataChange }) => {
               fontWeight: '600',
               color: '#374151'
             }}>
-              Resume/CV (Optional)
+              Self Rating (1-10) *
             </label>
-            <div style={{
-              border: '2px dashed #d1d5db',
-              borderRadius: '8px',
-              padding: '20px',
-              textAlign: 'center',
-              backgroundColor: '#f9fafb'
-            }}>
+            <div style={{ position: 'relative' }}>
               <input
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={handleFileUpload}
-                style={{ display: 'none' }}
-                id="file-upload"
+                type="range"
+                min="1"
+                max="10"
+                value={formData.selfRate}
+                onChange={(e) => handleInputChange('selfRate', parseInt(e.target.value))}
+                style={{
+                  width: '100%',
+                  height: '8px',
+                  borderRadius: '4px',
+                  background: `linear-gradient(to right, #ea580c 0%, #ea580c ${(formData.selfRate - 1) * 11.11}%, #e5e7eb ${(formData.selfRate - 1) * 11.11}%, #e5e7eb 100%)`,
+                  outline: 'none',
+                  appearance: 'none',
+                  cursor: 'pointer'
+                }}
               />
-              <label htmlFor="file-upload" style={{ cursor: 'pointer', display: 'block' }}>
-                <div style={{ fontSize: '24px', marginBottom: '10px' }}>📄</div>
-                <div style={{ 
-                  color: '#6b7280',
-                  fontWeight: '500'
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: '8px'
+              }}>
+                <span style={{ fontSize: '12px', color: '#6b7280' }}>Beginner</span>
+                <div style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  color: '#ea580c',
+                  padding: '4px 12px',
+                  backgroundColor: '#ffedd5',
+                  borderRadius: '20px',
+                  minWidth: '40px',
+                  textAlign: 'center'
                 }}>
-                  {formData.resume ? formData.resume.name : 'Click to upload resume'}
+                  {formData.selfRate}
                 </div>
-                <div style={{ 
-                  fontSize: '12px',
-                  color: '#9ca3af',
-                  marginTop: '5px'
-                }}>
-                  PDF, JPG, PNG up to 10MB
-                </div>
-              </label>
+                <span style={{ fontSize: '12px', color: '#6b7280' }}>Expert</span>
+              </div>
             </div>
+            <p style={{
+              fontSize: '12px',
+              color: '#6b7280',
+              marginTop: '5px'
+            }}>
+              Rate your expertise level in astrology
+            </p>
           </div>
+
 
           {/* Submit Button - Hidden, handled by header */}
           <button

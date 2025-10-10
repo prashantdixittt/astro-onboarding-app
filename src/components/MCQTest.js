@@ -68,6 +68,16 @@ const MCQTest = ({ basicInfo, onComplete, onQuestionChange, onLoadingStart, onLo
       ...prev,
       [questionId]: selectedAnswer
     }));
+
+    // Auto-advance to next question after a short delay
+    setTimeout(() => {
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        // If it's the last question, automatically submit
+        handleSubmit();
+      }
+    }, 800); // 800ms delay for better UX
   };
 
   const calculateScore = () => {
